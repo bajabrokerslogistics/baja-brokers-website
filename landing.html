@@ -354,10 +354,10 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">
-    <img src="logo.png" alt="Baja Brokers Logistics" height="38"
-         style="vertical-align:middle;filter:brightness(1.05);"
-         onerror="this.style.display='none';document.getElementById('nav-text-logo').style.display='inline'">
-    <span id="nav-text-logo" style="display:none">BAJA <span style="color:var(--rojo)">BROKERS</span> LOGISTICS</span>
+    <img src="logo.png" alt="" height="38"
+         style="vertical-align:middle;filter:brightness(1.05);display:none;"
+         onload="this.style.display='inline-block';document.getElementById('nav-text-logo').style.display='none'">
+    <span id="nav-text-logo">BAJA <span style="color:var(--rojo)">BROKERS</span> LOGISTICS</span>
   </div>
   <a class="nav-wa" href="https://wa.me/526641377493?text=Hola,%20quiero%20información%20sobre%20sus%20servicios" target="_blank" rel="noopener">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
@@ -367,39 +367,6 @@
 
 <!-- HERO -->
 <section class="hero">
-
-  <!-- Logo: si existe logo.png lo muestra, si no muestra el SVG del auto -->
-  <img src="logo.png" alt="Baja Brokers Logistics"
-       style="width:min(320px,75vw);margin-bottom:2rem;filter:drop-shadow(0 0 30px rgba(224,28,36,0.25));"
-       onerror="this.style.display='none';document.getElementById('car-fallback').style.display='block'">
-
-  <!-- Car SVG silhouette (fallback) -->
-  <svg id="car-fallback" class="car-svg" style="display:none" viewBox="0 0 400 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Body -->
-    <path d="M60 120 Q80 80 130 65 Q165 52 200 50 Q240 48 275 60 Q305 70 330 90 L345 120 Z" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
-    <!-- Roof -->
-    <path d="M130 65 Q155 35 185 28 Q215 22 248 28 Q278 35 305 65" fill="#111" stroke="#777" stroke-width="1.2"/>
-    <!-- Windshield -->
-    <path d="M138 63 Q158 38 185 30 Q212 22 242 30 Q265 37 285 63" fill="none" stroke="#aaa" stroke-width="1"/>
-    <!-- Windows highlight -->
-    <path d="M148 60 Q165 40 190 33 Q215 26 238 33 Q255 40 270 60" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.8"/>
-    <!-- Wheels -->
-    <circle cx="115" cy="120" r="22" fill="#0a0a0a" stroke="#444" stroke-width="2"/>
-    <circle cx="115" cy="120" r="12" fill="#111" stroke="#666" stroke-width="1.5"/>
-    <circle cx="115" cy="120" r="4" fill="#888"/>
-    <circle cx="295" cy="120" r="22" fill="#0a0a0a" stroke="#444" stroke-width="2"/>
-    <circle cx="295" cy="120" r="12" fill="#111" stroke="#666" stroke-width="1.5"/>
-    <circle cx="295" cy="120" r="4" fill="#888"/>
-    <!-- Ground line -->
-    <line x1="40" y1="142" x2="370" y2="142" stroke="#333" stroke-width="1"/>
-    <!-- Front lights (red glow) -->
-    <ellipse cx="340" cy="98" rx="8" ry="5" fill="rgba(224,28,36,0.6)"/>
-    <ellipse cx="340" cy="98" rx="14" ry="8" fill="rgba(224,28,36,0.12)"/>
-    <!-- Rear lights -->
-    <ellipse cx="63" cy="100" rx="5" ry="4" fill="rgba(180,0,0,0.4)"/>
-    <!-- Reflection -->
-    <ellipse cx="205" cy="148" rx="130" ry="8" fill="rgba(224,28,36,0.05)"/>
-  </svg>
 
   <div class="hero-badge">Tijuana, B.C. · Importacion desde USA</div>
 
