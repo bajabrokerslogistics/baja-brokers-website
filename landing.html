@@ -312,19 +312,37 @@
     footer strong { color: var(--blanco); }
     footer .red { color: var(--rojo); }
 
-    /* WHATSAPP FLOAT */
-    .wa-float {
+    /* SOCIAL FLOAT BUTTONS */
+    .social-float {
       position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
-      width: 56px; height: 56px;
-      background: #25d366;
+      display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
+    }
+    .float-btn {
+      width: 52px; height: 52px;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
       text-decoration: none;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
-    .wa-float svg { width: 30px; height: 30px; fill: #fff; }
+    .float-btn:hover { transform: scale(1.1); }
+    .float-btn svg { width: 26px; height: 26px; fill: #fff; }
+    .float-wa { background: #25d366; box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+    .float-wa:hover { box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+    .float-fb { background: #1877f2; box-shadow: 0 4px 16px rgba(24,119,242,0.4); }
+    .float-fb:hover { box-shadow: 0 6px 24px rgba(24,119,242,0.55); }
+    .float-ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); box-shadow: 0 4px 16px rgba(220,39,67,0.35); }
+    .float-ig:hover { box-shadow: 0 6px 24px rgba(220,39,67,0.5); }
+
+    /* SOCIAL INLINE ICONS */
+    .social-links { display: flex; gap: 12px; justify-content: center; margin-top: 1rem; }
+    .social-link {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; transition: transform 0.2s, opacity 0.2s;
+    }
+    .social-link:hover { transform: scale(1.1); opacity: 0.85; }
+    .social-link svg { width: 20px; height: 20px; fill: #fff; }
 
     @media (max-width: 600px) {
       .hero-btns { flex-direction: column; align-items: center; }
@@ -336,7 +354,12 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Baja <span>Brokers</span> Logistics</div>
+  <div class="nav-logo">
+    <img src="logo.png" alt="Baja Brokers Logistics" height="38"
+         style="vertical-align:middle;filter:brightness(1.05);"
+         onerror="this.style.display='none';document.getElementById('nav-text-logo').style.display='inline'">
+    <span id="nav-text-logo" style="display:none">Baja <span style="color:var(--rojo)">Brokers</span> Logistics</span>
+  </div>
   <a class="nav-wa" href="https://wa.me/526641377493?text=Hola,%20quiero%20información%20sobre%20sus%20servicios" target="_blank" rel="noopener">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
     WhatsApp
@@ -346,8 +369,13 @@
 <!-- HERO -->
 <section class="hero">
 
-  <!-- Car SVG silhouette -->
-  <svg class="car-svg" viewBox="0 0 400 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Logo: si existe logo.png lo muestra, si no muestra el SVG del auto -->
+  <img src="logo.png" alt="Baja Brokers Logistics"
+       style="width:min(320px,75vw);margin-bottom:2rem;filter:drop-shadow(0 0 30px rgba(224,28,36,0.25));"
+       onerror="this.style.display='none';document.getElementById('car-fallback').style.display='block'">
+
+  <!-- Car SVG silhouette (fallback) -->
+  <svg id="car-fallback" class="car-svg" style="display:none" viewBox="0 0 400 180" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- Body -->
     <path d="M60 120 Q80 80 130 65 Q165 52 200 50 Q240 48 275 60 Q305 70 330 90 L345 120 Z" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
     <!-- Roof -->
@@ -406,8 +434,8 @@
       <div class="stat-label">Proceso gestionado</div>
     </div>
     <div>
-      <div class="stat-num">TIJ</div>
-      <div class="stat-label">Entrega en Tijuana</div>
+      <div class="stat-num">MX</div>
+      <div class="stat-label">Entregas en todo México</div>
     </div>
     <div>
       <div class="stat-num">USA</div>
@@ -435,8 +463,8 @@
     </div>
     <div class="service-card">
       <div class="service-icon">📊</div>
-      <h3>Asesoría para Pujar</h3>
-      <p>Te orientamos sobre precios de mercado, historial del vehículo y montos máximos recomendados para que hagas una compra inteligente.</p>
+      <h3>Asesoría para Comprar</h3>
+      <p>Te orientamos en la selección del vehículo, revisamos el historial y te ayudamos a tomar la mejor decisión de compra. Te cotizamos grúa, importación y comisión de forma transparente.</p>
     </div>
     <div class="service-card">
       <div class="service-icon">💳</div>
@@ -465,7 +493,8 @@
       <div class="auction-tag">IAAI</div>
       <div class="auction-tag">MANHEIM</div>
       <div class="auction-tag">OPENLANE</div>
-      <div class="auction-tag">EBLOCK / ADESA</div>
+      <div class="auction-tag">EBLOCK</div>
+      <div class="auction-tag">ADESA</div>
       <div class="auction-tag">CARMAX</div>
       <div class="auction-tag">ACV AUCTIONS</div>
     </div>
@@ -487,11 +516,11 @@
     <div class="step">
       <div class="step-num">2</div>
       <h3>Cotización</h3>
-      <p>Te damos precios reales: subasta + fees + transporte + comisión.</p>
+      <p>Te damos costos reales de grúa, importación y comisión. Sin sorpresas.</p>
     </div>
     <div class="step">
       <div class="step-num">3</div>
-      <h3>Puja y compra</h3>
+      <h3>Compra en subasta</h3>
       <p>Participamos en la subasta y compramos el vehículo en tu nombre.</p>
     </div>
     <div class="step">
@@ -532,13 +561,35 @@
     &nbsp;·&nbsp;
     <a href="https://wa.me/526641377493" style="color:#25d366;text-decoration:none;">WhatsApp</a>
   </p>
+  <div class="social-links">
+    <a class="social-link" style="background:#25d366;" href="https://wa.me/526641377493" target="_blank" rel="noopener" title="WhatsApp">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
+    </a>
+    <a class="social-link" style="background:#1877f2;" href="https://facebook.com/bajabrokerlogistics" target="_blank" rel="noopener" title="Facebook">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.406 18.627 0 12 0S0 5.406 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.514c-1.491 0-1.956.93-1.956 1.883v2.272h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+    </a>
+    <a class="social-link" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" href="https://instagram.com/bajabrokerlogistics" target="_blank" rel="noopener" title="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+    </a>
+  </div>
   <p style="margin-top:1rem;font-size:0.75rem;color:#444;">© 2025 Baja Brokers Logistics. Todos los derechos reservados.</p>
 </footer>
 
-<!-- WHATSAPP FLOAT BUTTON -->
-<a class="wa-float" href="https://wa.me/526641377493?text=Hola,%20quiero%20información%20sobre%20sus%20servicios" target="_blank" rel="noopener" title="Contactar por WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-</a>
+<!-- FLOATING SOCIAL BUTTONS -->
+<div class="social-float">
+  <!-- WhatsApp -->
+  <a class="float-btn float-wa" href="https://wa.me/526641377493?text=Hola,%20quiero%20información%20sobre%20sus%20servicios" target="_blank" rel="noopener" title="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
+  </a>
+  <!-- Facebook — reemplaza # con tu URL de Facebook -->
+  <a class="float-btn float-fb" href="https://facebook.com/bajabrokerlogistics" target="_blank" rel="noopener" title="Facebook">
+    <svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.406 18.627 0 12 0S0 5.406 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.514c-1.491 0-1.956.93-1.956 1.883v2.272h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+  </a>
+  <!-- Instagram — reemplaza # con tu URL de Instagram -->
+  <a class="float-btn float-ig" href="https://instagram.com/bajabrokerlogistics" target="_blank" rel="noopener" title="Instagram">
+    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+  </a>
+</div>
 
 </body>
 </html>
