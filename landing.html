@@ -25,20 +25,22 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
       border-bottom: 1px solid #1f1f1f;
-      padding: 0 2rem; height: 68px;
+      padding: 0 2rem; height: 76px;
       display: flex; align-items: center; justify-content: space-between; gap: 1rem;
     }
     .nav-brand {
-      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 2px; flex-shrink: 0; order: 3;
     }
     .nav-brand img {
-      height: 46px; display: none;
+      height: 40px; display: none;
     }
     .nav-brand-text {
-      font-size: 1.25rem; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.1;
+      font-size: 1.1rem; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.1;
+      text-align: center;
     }
     .nav-brand-text .red { color: var(--rojo); }
-    .nav-brand-text .sub { display: block; font-size: 0.6rem; letter-spacing: 0.25em; color: var(--gris); font-weight: 600; }
+    .nav-brand-text .sub { display: block; font-size: 0.55rem; letter-spacing: 0.25em; color: var(--gris); font-weight: 600; }
     .nav-links {
       display: flex; gap: 1.5rem; list-style: none;
     }
@@ -52,23 +54,25 @@
       background: #25d366; color: #fff;
       padding: 9px 18px; border-radius: 8px;
       text-decoration: none; font-size: 0.88rem; font-weight: 700; white-space: nowrap;
-      transition: background 0.2s, transform 0.15s;
+      transition: background 0.2s, transform 0.15s; order: 2;
     }
     .nav-cta:hover { background: #1ebe59; transform: translateY(-1px); }
     .nav-cta svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
-    .nav-mobile-btn { display: none; background: none; border: none; color: var(--blanco); cursor: pointer; padding: 4px; }
+    .nav-links { order: 1; }
+    .nav-mobile-btn { display: none; background: none; border: none; color: var(--blanco); cursor: pointer; padding: 4px; order: 1; }
     .nav-mobile-btn svg { width: 24px; height: 24px; fill: var(--blanco); }
 
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .nav-links.open {
         display: flex; flex-direction: column; gap: 0;
-        position: fixed; top: 68px; left: 0; right: 0;
+        position: fixed; top: 76px; left: 0; right: 0;
         background: rgba(10,10,10,0.98); border-bottom: 1px solid #222;
         padding: 1rem 2rem 1.5rem;
       }
       .nav-links.open a { padding: 10px 0; border-bottom: 1px solid #1f1f1f; font-size: 1rem; }
       .nav-mobile-btn { display: block; }
+      .nav-cta { display: none; }
     }
 
     /* ── HERO ── */
@@ -355,7 +359,7 @@
 
 <!-- ══ HERO ══ -->
 <section class="hero" id="inicio">
-  <p class="hero-eyebrow">Tijuana, B.C. · Servicio para toda México</p>
+  <p class="hero-eyebrow">Tijuana, B.C. · Servicio para todo México</p>
   <h1>
     COMPRA AUTOS EN<br>SUBASTAS DE EE.UU.
     <div class="line2">SIN LICENCIA DE DEALER</div>
