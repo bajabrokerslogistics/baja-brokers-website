@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Broker Logistics</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;color:#1a1a1a;font-size:14px}
+.app{max-width:960px;margin:0 auto;padding:1rem}
+.header{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;background:#fff;padding:1rem;border-radius:12px;border:1px solid #e5e5e5}
+.avatar{width:40px;height:40px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#1d4ed8}
+.nav{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap}
+.nav button{padding:8px 14px;border-radius:8px;border:1px solid #d1d5db;background:#fff;color:#6b7280;cursor:pointer;font-size:13px;font-weight:500}
+.nav button.active{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+.section{display:none}.section.active{display:block}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1.5rem}
+.metric{background:#fff;border-radius:8px;padding:1rem;border:1px solid #e5e5e5}
+.metric-label{font-size:11px;color:#6b7280;margin-bottom:4px}
+.metric-value{font-size:20px;font-weight:600;color:#1a1a1a}
+.card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-row.three{grid-template-columns:1fr 1fr 1fr}
+.form-row.full{grid-template-columns:1fr}
+label{display:block;font-size:12px;color:#6b7280;margin-bottom:3px}
+input,select,textarea{width:100%;padding:8px 10px;border-radius:8px;border:1px solid #d1d5db;background:#f9fafb;color:#1a1a1a;font-size:13px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#93c5fd;background:#fff}
+input[readonly]{opacity:0.7;cursor:default}
+.btn{padding:8px 16px;border-radius:8px;border:1px solid #d1d5db;background:#fff;color:#1a1a1a;cursor:pointer;font-size:13px;font-weight:500}
+.btn:active{opacity:0.8}
+.btn-primary{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+.btn-success{background:#dcfce7;color:#166534;border-color:#86efac}
+.btn-danger{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:8px;color:#6b7280;border-bottom:1px solid #f3f4f6;font-weight:500;white-space:nowrap}
+td{padding:8px;border-bottom:1px solid #f3f4f6;color:#1a1a1a;white-space:nowrap}
+.badge{display:inline-block;padding:3px 9px;border-radius:8px;font-size:11px;font-weight:500}
+.badge-green{background:#dcfce7;color:#166534}
+.badge-amber{background:#fef3c7;color:#92400e}
+.badge-red{background:#fee2e2;color:#991b1b}
+.badge-blue{background:#dbeafe;color:#1d4ed8}
+.profit-pos{color:#166534;font-weight:600}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.section-header h2{font-size:16px;font-weight:600}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:12px;border:1px solid #e5e5e5;padding:1.5rem;width:100%;max-width:600px;margin-bottom:2rem}
+.modal h3{font-size:15px;font-weight:600;margin-bottom:1rem}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:1rem}
+.divider{border-top:1px solid #f3f4f6;margin:12px 0;padding-top:12px}
+.divider-label{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:8px}
+.cost-box{background:#f9fafb;border-radius:8px;padding:1rem;margin:10px 0;border:1px solid #f3f4f6}
+.cost-row{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;color:#6b7280}
+.cost-row.total{font-weight:600;color:#1a1a1a;border-top:1px solid #e5e5e5;margin-top:6px;padding-top:6px}
+.cost-row.ganancia{font-weight:600;color:#166534;font-size:14px;margin-top:4px}
+.cost-row.split{color:#6b7280;font-size:12px;padding-left:12px}
+.receipt-box{font-family:'Courier New',monospace;font-size:12px;background:#f9fafb;border-radius:8px;padding:1rem;white-space:pre-wrap;line-height:1.7;border:1px solid #e5e5e5;max-height:60vh;overflow-y:auto}
+.titulo-upload{border:2px dashed #d1d5db;border-radius:8px;padding:1.2rem;text-align:center;cursor:pointer;color:#6b7280;font-size:13px;margin-top:8px}
+.foto-preview{width:100%;max-height:160px;object-fit:cover;border-radius:8px}
+.empty-state{text-align:center;padding:2rem;color:#9ca3af;font-size:14px}
+.info-note{font-size:11px;color:#6b7280;margin-top:4px}
+.save-bar{background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:10px 14px;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:#92400e}
+@media(max-width:600px){
+  .form-row{grid-template-columns:1fr}
+  .form-row.three{grid-template-columns:1fr}
+  .cards-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="save-bar">
+    <span>Los datos se guardan en este navegador automaticamente</span>
+    <button class="btn" onclick="exportarDatos()" style="font-size:12px;padding:4px 10px">Exportar backup</button>
+  </div>
+
+  <div class="header">
+    <div class="avatar">BL</div>
+    <div>
+      <div style="font-size:16px;font-weight:600">Broker Logistics</div>
+      <div style="font-size:12px;color:#6b7280">Control de clientes · Tijuana, B.C.</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="active" onclick="showTab('dashboard',this)">Dashboard</button>
+    <button onclick="showTab('clientes',this)">Clientes</button>
+    <button onclick="showTab('vehiculos',this)">Vehiculos</button>
+    <button onclick="showTab('titulos',this)">Titulos</button>
+    <button onclick="showTab('recibos',this)">Recibos</button>
+  </div>
+
+  <div id="tab-dashboard" class="section active">
+    <div class="cards-grid" id="metrics"></div>
+    <div class="card">
+      <div class="section-header"><h2>Ventas recientes</h2></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cliente</th><th>Vehiculo</th><th>Subasta</th><th>Serv. pago</th><th>Total</th><th>Ganancia</th><th>Titulo</th></tr></thead>
+          <tbody id="dash-table"><tr><td colspan="7" class="empty-state">Sin ventas aun</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-clientes" class="section">
+    <div class="section-header"><h2>Clientes</h2><button class="btn btn-primary" onclick="openModal('modal-cliente')">+ Nuevo cliente</button></div>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nombre</th><th>WhatsApp</th><th>Carros</th><th></th></tr></thead>
+          <tbody id="clientes-table"><tr><td colspan="4" class="empty-state">Sin clientes aun.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-vehiculos" class="section">
+    <div class="section-header"><h2>Vehiculos</h2><button class="btn btn-primary" onclick="openModal('modal-vehiculo')">+ Nuevo vehiculo</button></div>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cliente</th><th>Vehiculo</th><th>Subasta</th><th>Grua</th><th>Serv. pago</th><th>Total cliente</th><th>Mi costo</th><th>Ganancia</th><th></th></tr></thead>
+          <tbody id="vehiculos-table"><tr><td colspan="9" class="empty-state">Sin vehiculos aun.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-titulos" class="section">
+    <div class="section-header"><h2>Control de titulos</h2></div>
+    <div id="titulos-list"><div class="empty-state card">Sin vehiculos registrados.</div></div>
+  </div>
+
+  <div id="tab-recibos" class="section">
+    <div class="section-header"><h2>Recibos</h2></div>
+    <div id="recibos-list"><div class="empty-state card">Los recibos se generan al registrar un vehiculo.</div></div>
+  </div>
+</div>
+
+<!-- MODAL CLIENTE -->
+<div class="modal-bg" id="modal-cliente">
+  <div class="modal">
+    <h3>Nuevo cliente</h3>
+    <div class="form-row"><div><label>Nombre completo</label><input id="c-nombre" placeholder="Juan Perez"></div><div><label>WhatsApp</label><input id="c-whatsapp" placeholder="+52 664 000 0000"></div></div>
+    <div class="form-row full"><div><label>Notas</label><textarea id="c-notas" rows="2"></textarea></div></div>
+    <div class="modal-footer"><button class="btn" onclick="closeModal('modal-cliente')">Cancelar</button><button class="btn btn-primary" onclick="guardarCliente()">Guardar</button></div>
+  </div>
+</div>
+
+<!-- MODAL VEHICULO -->
+<div class="modal-bg" id="modal-vehiculo">
+  <div class="modal">
+    <h3>Registrar vehiculo</h3>
+    <div class="form-row">
+      <div><label>Cliente</label><select id="v-cliente" onchange="calcAll()"><option value="">Selecciona cliente</option></select></div>
+      <div><label>Subasta</label>
+        <select id="v-subasta" onchange="onSubastaChange()">
+          <option value="copart">Copart</option>
+          <option value="iaai">IAAI</option>
+          <option value="openlane">OpenLane / Eblock / Adesa</option>
+          <option value="carmax">Carmax / ACV</option>
+          <option value="manheim">Manheim</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row three">
+      <div><label>Año</label><input id="v-anio" type="number" placeholder="2020"></div>
+      <div><label>Marca</label><input id="v-marca" placeholder="Toyota"></div>
+      <div><label>Modelo</label><input id="v-modelo" placeholder="Camry"></div>
+    </div>
+    <div class="form-row">
+      <div><label>VIN / Lote</label><input id="v-vin" placeholder="Opcional"></div>
+      <div><label>Tipo vehiculo</label>
+        <select id="v-tipo" onchange="calcAll()">
+          <option value="regular">Regular / Mediano</option>
+          <option value="xl">XL (Suburban, Tahoe, F150+) +$100</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="divider">
+      <div class="divider-label">Servicio de pago</div>
+      <div class="form-row full"><div><label>Quien fue a pagar a la subasta?</label>
+        <select id="v-pago-quien" onchange="calcAll()">
+          <option value="nosotros">Nosotros fuimos a pagar (+servicio)</option>
+          <option value="cliente">El cliente fue a pagar</option>
+        </select>
+      </div></div>
+      <div id="pago-resumen" class="cost-box" style="display:none">
+        <div class="cost-row"><span>Cobramos al cliente</span><span id="r-pago-cliente">$0</span></div>
+        <div class="cost-row split"><span>Nuestro costo interno</span><span id="r-pago-costo">$0</span></div>
+        <div class="cost-row ganancia"><span>Ganancia servicio pago</span><span id="r-pago-ganancia">$0</span></div>
+      </div>
+      <p class="info-note" id="pago-nota"></p>
+    </div>
+
+    <div class="divider">
+      <div class="divider-label">Grua / transporte</div>
+      <div class="form-row">
+        <div><label>Proveedor de grua</label>
+          <select id="v-grua-proveedor" onchange="onGruaChange()">
+            <option value="yardas">Yardas Unidas</option>
+            <option value="otro">Otro proveedor</option>
+            <option value="ninguna">Sin grua / cliente recoge</option>
+          </select>
+        </div>
+        <div id="destino-wrap"><label>Destino</label>
+          <select id="v-destino" onchange="calcAll()">
+            <option value="80">San Diego</option>
+            <option value="170">LA / Long Beach / Anaheim / Riverside</option>
+            <option value="210">Sun Valley / N. Hollywood / Van Nuys</option>
+            <option value="300">Santa Clarita / Lancaster</option>
+            <option value="280">Las Vegas</option>
+            <option value="400">Fresno / Sacramento / San Jose / East Bay</option>
+            <option value="480">Reno</option>
+            <option value="550">Sacramento Sublote West</option>
+            <option value="800">Redding</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" id="grua-manual-row" style="display:none">
+        <div><label>Costo grua (lo que pagas tu)</label><input id="v-grua-costo-manual" type="number" placeholder="0" oninput="calcAll()"></div>
+        <div><label>Nombre del proveedor</label><input id="v-grua-nombre" placeholder="Empresa..."></div>
+      </div>
+      <div id="grua-tipo-pago-wrap"><label>Tipo de pago cliente (grua)</label>
+        <select id="v-grua-pago-tipo" onchange="calcAll()">
+          <option value="adelantado">Pago adelantado</option>
+          <option value="financiado">Financiado (+$20)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="divider">
+      <div class="divider-label">Costos de subasta</div>
+      <div class="form-row">
+        <div><label>Precio de compra (subasta)</label><input id="v-costo" type="number" placeholder="5000" oninput="calcAll()"></div>
+        <div id="fee-wrap"><label>Auction fee</label><input id="v-fee" type="number" placeholder="0" oninput="calcAll()"></div>
+      </div>
+    </div>
+
+    <div class="divider">
+      <div class="divider-label">Comision y extras</div>
+      <div class="form-row">
+        <div><label>Mi comision broker (USD)</label><input id="v-comision" type="number" placeholder="300" oninput="calcAll()"></div>
+        <div><label>Otros extras</label><input id="v-extras" type="number" placeholder="0" oninput="calcAll()"></div>
+      </div>
+    </div>
+
+    <div class="cost-box">
+      <div style="font-size:12px;font-weight:600;color:#6b7280;margin-bottom:8px">RESUMEN FINANCIERO</div>
+      <div class="cost-row"><span>Precio subasta</span><span id="r-subasta">$0</span></div>
+      <div class="cost-row"><span>Auction fee / cargo</span><span id="r-fee">$0</span></div>
+      <div class="cost-row"><span>Grua (mi costo)</span><span id="r-grua-costo">$0</span></div>
+      <div class="cost-row"><span>Servicio pago (mi costo)</span><span id="r-svc-costo">$0</span></div>
+      <div class="cost-row total"><span>Mi costo total</span><span id="r-mi-costo">$0</span></div>
+      <div style="height:8px"></div>
+      <div class="cost-row"><span>Grua al cliente</span><span id="r-grua-cliente">$0</span></div>
+      <div class="cost-row"><span>Servicio pago al cliente</span><span id="r-svc-cliente">$0</span></div>
+      <div class="cost-row"><span>Comision broker</span><span id="r-comision">$0</span></div>
+      <div class="cost-row"><span>Extras</span><span id="r-extras">$0</span></div>
+      <div class="cost-row total"><span>Total cliente paga</span><span id="r-total-cliente">$0</span></div>
+      <div class="cost-row ganancia"><span>Mi ganancia neta</span><span id="r-ganancia">$0</span></div>
+      <div class="cost-row split" id="split-cuenta" style="display:none"><span>Para dueno de cuenta</span><span id="r-split-cuenta">$0</span></div>
+      <div class="cost-row split" id="split-yo" style="display:none"><span>Queda para mi (fee cuenta)</span><span id="r-split-yo">$0</span></div>
+    </div>
+
+    <div class="form-row full" style="margin-top:10px">
+      <div><label>Estado del titulo</label>
+        <select id="v-titulo-estado">
+          <option value="pendiente">Pendiente - no ha llegado</option>
+          <option value="en_camino">En camino</option>
+          <option value="en_mano">En mano</option>
+          <option value="entregado">Entregado al cliente</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-vehiculo')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarVehiculo()">Guardar + Generar recibo</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL RECIBO -->
+<div class="modal-bg" id="modal-recibo">
+  <div class="modal">
+    <h3>Recibo / Receipt</h3>
+    <div class="receipt-box" id="recibo-content"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-recibo')">Cerrar</button>
+      <button class="btn btn-success" onclick="copyRecibo()">Copiar para WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const YARDAS={adelantado:{80:80,170:170,210:210,300:300,280:280,400:400,480:480,550:550,800:800},financiado:{80:80,170:190,210:230,300:320,280:300,400:420,480:550,550:600,800:850}};
+const CUENTA_SUBASTAS=['openlane','carmax'];
+const PAGO_POR_MIL=['copart','iaai'];
+
+let clientes=JSON.parse(localStorage.getItem('bl_clientes')||'[]');
+let vehiculos=JSON.parse(localStorage.getItem('bl_vehiculos')||'[]');
+
+function guardar(){
+  localStorage.setItem('bl_clientes',JSON.stringify(clientes));
+  localStorage.setItem('bl_vehiculos',JSON.stringify(vehiculos));
+}
+
+function exportarDatos(){
+  const data=JSON.stringify({clientes,vehiculos},null,2);
+  const blob=new Blob([data],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='broker-backup-'+new Date().toLocaleDateString('es-MX').replace(/\\//g,'-')+'.json';
+  a.click();URL.revokeObjectURL(url);
+}
+
+function showTab(t,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(t==='dashboard')renderDashboard();
+  if(t==='titulos')renderTitulos();
+  if(t==='recibos')renderRecibos();
+}
+function openModal(id){if(id==='modal-vehiculo')initVehiculoModal();document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+
+function initVehiculoModal(){
+  const sel=document.getElementById('v-cliente');
+  sel.innerHTML='<option value="">Selecciona cliente</option>';
+  clientes.forEach((c,i)=>sel.innerHTML+=`<option value="${i}">${c.nombre}</option>`);
+  onSubastaChange();onGruaChange();
+}
+
+function onSubastaChange(){
+  const sub=document.getElementById('v-subasta').value;
+  document.getElementById('fee-wrap').style.display=CUENTA_SUBASTAS.includes(sub)?'none':'block';
+  if(CUENTA_SUBASTAS.includes(sub))document.getElementById('v-fee').value=0;
+  calcAll();
+}
+
+function onGruaChange(){
+  const prov=document.getElementById('v-grua-proveedor').value;
+  document.getElementById('destino-wrap').style.display=prov==='yardas'?'block':'none';
+  document.getElementById('grua-manual-row').style.display=prov==='otro'?'grid':'none';
+  document.getElementById('grua-tipo-pago-wrap').style.display=prov==='ninguna'?'none':'block';
+  calcAll();
+}
+
+function calcAll(){
+  const sub=document.getElementById('v-subasta').value;
+  const prov=document.getElementById('v-grua-proveedor').value;
+  const tipoPago=document.getElementById('v-grua-pago-tipo').value;
+  const tipo=document.getElementById('v-tipo').value;
+  const pagoQuien=document.getElementById('v-pago-quien').value;
+  const costo=parseFloat(document.getElementById('v-costo').value)||0;
+  const fee=parseFloat(document.getElementById('v-fee').value)||0;
+  const comision=parseFloat(document.getElementById('v-comision').value)||0;
+  const extras=parseFloat(document.getElementById('v-extras').value)||0;
+  const extraVehiculo=tipo==='xl'?100:0;
+
+  let svcClienteCobro=0,svcMiCosto=0;
+  const pagoBox=document.getElementById('pago-resumen');
+  const pagoNota=document.getElementById('pago-nota');
+  if(pagoQuien==='nosotros'){
+    pagoBox.style.display='block';
+    if(PAGO_POR_MIL.includes(sub)){
+      const miles=Math.ceil(costo/1000);
+      svcClienteCobro=miles*40;svcMiCosto=miles*25;
+      pagoNota.textContent=miles+' mil x $40 = $'+svcClienteCobro+' al cliente · '+miles+' mil x $25 = $'+svcMiCosto+' tu costo';
+    } else {
+      svcClienteCobro=125;svcMiCosto=0;
+      pagoNota.textContent='Tarifa fija $125 al cliente';
+    }
+    document.getElementById('r-pago-cliente').textContent='$'+svcClienteCobro;
+    document.getElementById('r-pago-costo').textContent='$'+svcMiCosto;
+    document.getElementById('r-pago-ganancia').textContent='$'+(svcClienteCobro-svcMiCosto);
+  } else {pagoBox.style.display='none';pagoNota.textContent='';}
+
+  let gruaCostoMio=0,gruaAlCliente=0,gruaNombre='Sin grua',gruaDestino='';
+  if(prov==='yardas'){
+    const dest=parseInt(document.getElementById('v-destino').value)||0;
+    gruaCostoMio=dest;
+    const pc=(YARDAS[tipoPago]||YARDAS.adelantado)[dest]||dest;
+    gruaAlCliente=pc+20+extraVehiculo;
+    gruaNombre='Yardas Unidas';
+    const destEl=document.getElementById('v-destino');
+    gruaDestino=destEl.options[destEl.selectedIndex].text;
+  } else if(prov==='otro'){
+    gruaCostoMio=parseFloat(document.getElementById('v-grua-costo-manual').value)||0;
+    gruaAlCliente=gruaCostoMio+20+extraVehiculo;
+    gruaNombre=document.getElementById('v-grua-nombre').value||'Otro proveedor';
+  }
+
+  const esCuenta=CUENTA_SUBASTAS.includes(sub);
+  const cuentaFee=esCuenta?200:0;
+  const cuentaCosto=esCuenta?100:0;
+  const cuentaGanancia=esCuenta?100:0;
+
+  const miCostoTotal=costo+fee+gruaCostoMio+svcMiCosto+cuentaCosto;
+  const totalCliente=costo+fee+cuentaFee+gruaAlCliente+svcClienteCobro+comision+extras;
+  const gananciaNeta=totalCliente-miCostoTotal;
+
+  document.getElementById('r-subasta').textContent='$'+costo.toLocaleString();
+  document.getElementById('r-fee').textContent='$'+(fee+cuentaFee).toLocaleString();
+  document.getElementById('r-grua-costo').textContent='$'+gruaCostoMio.toLocaleString();
+  document.getElementById('r-svc-costo').textContent='$'+svcMiCosto.toLocaleString();
+  document.getElementById('r-mi-costo').textContent='$'+miCostoTotal.toLocaleString();
+  document.getElementById('r-grua-cliente').textContent='$'+gruaAlCliente.toLocaleString();
+  document.getElementById('r-svc-cliente').textContent='$'+svcClienteCobro.toLocaleString();
+  document.getElementById('r-comision').textContent='$'+comision.toLocaleString();
+  document.getElementById('r-extras').textContent='$'+extras.toLocaleString();
+  document.getElementById('r-total-cliente').textContent='$'+totalCliente.toLocaleString();
+  document.getElementById('r-ganancia').textContent='$'+gananciaNeta.toLocaleString();
+
+  if(esCuenta){
+    document.getElementById('split-cuenta').style.display='flex';
+    document.getElementById('split-yo').style.display='flex';
+    document.getElementById('r-split-cuenta').textContent='-$'+cuentaCosto;
+    document.getElementById('r-split-yo').textContent='$'+cuentaGanancia;
+  } else {
+    document.getElementById('split-cuenta').style.display='none';
+    document.getElementById('split-yo').style.display='none';
+  }
+  return{costo,fee,comision,extras,gruaCostoMio,gruaAlCliente,gruaNombre,gruaDestino,svcClienteCobro,svcMiCosto,cuentaFee,cuentaCosto,cuentaGanancia,esCuenta,miCostoTotal,totalCliente,gananciaNeta,pagoQuien,sub,tipoPago,extraVehiculo};
+}
+
+function guardarCliente(){
+  const nombre=document.getElementById('c-nombre').value.trim();
+  if(!nombre){alert('Ingresa el nombre');return;}
+  clientes.push({nombre,whatsapp:document.getElementById('c-whatsapp').value.trim(),notas:document.getElementById('c-notas').value.trim()});
+  guardar();
+  ['c-nombre','c-whatsapp','c-notas'].forEach(id=>document.getElementById(id).value='');
+  closeModal('modal-cliente');renderClientes();
+}
+
+function guardarVehiculo(){
+  const ci=document.getElementById('v-cliente').value;
+  if(ci===''){alert('Selecciona un cliente');return;}
+  const nums=calcAll();
+  const sub=document.getElementById('v-subasta').value;
+  const subLabel={copart:'Copart',iaai:'IAAI',openlane:'OpenLane/Eblock/Adesa',carmax:'Carmax/ACV',manheim:'Manheim'}[sub]||sub;
+  const v={clienteIdx:parseInt(ci),subasta:subLabel,subastaKey:sub,anio:document.getElementById('v-anio').value,marca:document.getElementById('v-marca').value,modelo:document.getElementById('v-modelo').value,vin:document.getElementById('v-vin').value,pagoQuien:nums.pagoQuien,...nums,titulo:document.getElementById('v-titulo-estado').value,fecha:new Date().toLocaleDateString('es-MX'),fotoTitulo:null};
+  vehiculos.push(v);guardar();
+  closeModal('modal-vehiculo');renderVehiculos();mostrarRecibo(v);
+}
+
+function tituloBadge(t){
+  const m={pendiente:['badge-red','Pendiente'],en_camino:['badge-amber','En camino'],en_mano:['badge-amber','En mano'],entregado:['badge-green','Entregado']};
+  const[c,tx]=m[t]||['badge-amber',t];
+  return`<span class="badge ${c}">${tx}</span>`;
+}
+
+function renderClientes(){
+  const tb=document.getElementById('clientes-table');
+  if(!clientes.length){tb.innerHTML='<tr><td colspan="4" class="empty-state">Sin clientes aun.</td></tr>';return;}
+  tb.innerHTML=clientes.map((c,i)=>`<tr><td><strong>${c.nombre}</strong></td><td>${c.whatsapp||'—'}</td><td>${vehiculos.filter(v=>v.clienteIdx===i).length}</td><td><button class="btn btn-danger" style="font-size:11px;padding:4px 8px" onclick="eliminarCliente(${i})">Eliminar</button></td></tr>`).join('');
+}
+
+function eliminarCliente(i){
+  if(!confirm('Eliminar cliente '+clientes[i].nombre+'?'))return;
+  clientes.splice(i,1);guardar();renderClientes();renderDashboard();
+}
+
+function renderVehiculos(){
+  const tb=document.getElementById('vehiculos-table');
+  if(!vehiculos.length){tb.innerHTML='<tr><td colspan="9" class="empty-state">Sin vehiculos.</td></tr>';return;}
+  tb.innerHTML=vehiculos.map((v,i)=>`<tr>
+    <td>${clientes[v.clienteIdx]?.nombre||'—'}</td>
+    <td>${v.anio} ${v.marca} ${v.modelo}</td>
+    <td>${v.subasta}</td>
+    <td>${v.gruaNombre}</td>
+    <td>${v.pagoQuien==='nosotros'?`<span class="badge badge-blue">Nosotros $${v.svcClienteCobro}</span>`:'<span class="badge badge-green">Cliente</span>'}</td>
+    <td>$${v.totalCliente.toLocaleString()}</td>
+    <td>$${v.miCostoTotal.toLocaleString()}</td>
+    <td class="profit-pos">$${v.gananciaNeta.toLocaleString()}</td>
+    <td><button class="btn" style="font-size:11px;padding:4px 8px" onclick="mostrarRecibo(vehiculos[${i}])">Recibo</button></td>
+  </tr>`).join('');
+}
+
+function renderDashboard(){
+  const tv=vehiculos.reduce((a,v)=>a+v.totalCliente,0);
+  const tg=vehiculos.reduce((a,v)=>a+v.gananciaNeta,0);
+  const tSvc=vehiculos.filter(v=>v.pagoQuien==='nosotros').reduce((a,v)=>a+(v.svcClienteCobro-v.svcMiCosto),0);
+  const sp=vehiculos.filter(v=>v.titulo!=='entregado').length;
+  document.getElementById('metrics').innerHTML=`
+    <div class="metric"><div class="metric-label">Clientes</div><div class="metric-value">${clientes.length}</div></div>
+    <div class="metric"><div class="metric-label">Vehiculos</div><div class="metric-value">${vehiculos.length}</div></div>
+    <div class="metric"><div class="metric-label">Ventas totales</div><div class="metric-value">$${tv.toLocaleString()}</div></div>
+    <div class="metric"><div class="metric-label">Ganancia neta</div><div class="metric-value" style="color:#166534">$${tg.toLocaleString()}</div></div>
+    <div class="metric"><div class="metric-label">Gan. serv. pago</div><div class="metric-value" style="color:#166534">$${tSvc.toLocaleString()}</div></div>
+    <div class="metric"><div class="metric-label">Titulos pendientes</div><div class="metric-value" style="color:#92400e">${sp}</div></div>
+  `;
+  const tb=document.getElementById('dash-table');
+  if(!vehiculos.length){tb.innerHTML='<tr><td colspan="7" class="empty-state">Sin ventas aun</td></tr>';return;}
+  tb.innerHTML=vehiculos.slice().reverse().slice(0,10).map(v=>`<tr>
+    <td>${clientes[v.clienteIdx]?.nombre||'—'}</td>
+    <td>${v.anio} ${v.marca} ${v.modelo}</td>
+    <td>${v.subasta}</td>
+    <td>${v.pagoQuien==='nosotros'?`<span class="badge badge-blue">Nosotros</span>`:'<span class="badge badge-green">Cliente</span>'}</td>
+    <td>$${v.totalCliente.toLocaleString()}</td>
+    <td class="profit-pos">$${v.gananciaNeta.toLocaleString()}</td>
+    <td>${tituloBadge(v.titulo)}</td>
+  </tr>`).join('');
+}
+
+function renderTitulos(){
+  const el=document.getElementById('titulos-list');
+  if(!vehiculos.length){el.innerHTML='<div class="empty-state card">Sin vehiculos.</div>';return;}
+  el.innerHTML=vehiculos.map((v,i)=>`<div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-weight:600;font-size:15px">${v.anio} ${v.marca} ${v.modelo}</div>
+        <div style="font-size:12px;color:#6b7280">${clientes[v.clienteIdx]?.nombre||'—'} · ${v.subasta} · ${v.fecha}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        ${tituloBadge(v.titulo)}
+        <select style="font-size:12px;padding:4px 8px" onchange="cambiarTitulo(${i},this.value)">
+          <option value="pendiente" ${v.titulo==='pendiente'?'selected':''}>Pendiente</option>
+          <option value="en_camino" ${v.titulo==='en_camino'?'selected':''}>En camino</option>
+          <option value="en_mano" ${v.titulo==='en_mano'?'selected':''}>En mano</option>
+          <option value="entregado" ${v.titulo==='entregado'?'selected':''}>Entregado</option>
+        </select>
+      </div>
+    </div>
+    <div class="titulo-upload" onclick="document.getElementById('foto-${i}').click()">
+      ${v.fotoTitulo?`<img src="${v.fotoTitulo}" class="foto-preview">`:'Toca para subir foto del titulo'}
+    </div>
+    <input type="file" id="foto-${i}" accept="image/*" style="display:none" onchange="subirFoto(${i},this)">
+  </div>`).join('');
+}
+
+function cambiarTitulo(i,val){vehiculos[i].titulo=val;guardar();renderTitulos()}
+
+function subirFoto(i,input){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{vehiculos[i].fotoTitulo=e.target.result;guardar();renderTitulos()};
+  r.readAsDataURL(file);
+}
+
+function renderRecibos(){
+  const el=document.getElementById('recibos-list');
+  if(!vehiculos.length){el.innerHTML='<div class="empty-state card">Sin recibos aun.</div>';return;}
+  el.innerHTML=vehiculos.slice().reverse().map((v,ri)=>{
+    const i=vehiculos.length-1-ri;
+    return`<div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-weight:600">${clientes[v.clienteIdx]?.nombre||'—'} — ${v.anio} ${v.marca} ${v.modelo}</div>
+        <div style="font-size:12px;color:#6b7280">${v.fecha} · $${v.totalCliente.toLocaleString()} · Ganancia $${v.gananciaNeta.toLocaleString()}</div>
+      </div>
+      <button class="btn btn-primary" style="font-size:12px" onclick="mostrarRecibo(vehiculos[${i}])">Ver recibo</button>
+    </div>`;
+  }).join('');
+}
+
+function mostrarRecibo(v){
+  const cliente=clientes[v.clienteIdx]?.nombre||'—';
+  const auto=v.anio+' '+v.marca+' '+v.modelo;
+  const feeTotal=(v.fee||0)+(v.cuentaFee||0);
+  const gruaLine=v.gruaNombre==='Sin grua'?'':('Transporte'+(v.gruaDestino?' ('+v.gruaDestino+')':'')+':  $'+v.gruaAlCliente.toFixed(2)+'\\n');
+  const svcLine=v.pagoQuien==='nosotros'?('Servicio de pago:      $'+v.svcClienteCobro.toFixed(2)+'\\n'):'';
+  const feeLine=feeTotal?('Auction fee:           $'+feeTotal.toFixed(2)+'\\n'):'';
+  const extrasLine=v.extras?('Extras:                $'+v.extras.toFixed(2)+'\\n'):'';
+  const txt='═ \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \\n        BROKER LOGISTICS\\n        Tijuana, B.C., Mexico\\n\u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \\nRECIBO / RECEIPT\\nFecha / Date:    '+v.fecha+'\\n\\nCliente:         '+cliente+'\\nVehiculo:        '+auto+'\\nVIN / Lote:      '+(v.vin||'—')+'\\nSubasta:         '+v.subasta+'\\n\u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \\nDESGLOSE / BREAKDOWN\\n\\nPrecio subasta:        $'+v.costo.toFixed(2)+'\\n'+feeLine+gruaLine+svcLine+'Comision broker:       $'+v.comision.toFixed(2)+'\\n'+extrasLine+'\u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \\nTOTAL A PAGAR:         $'+v.totalCliente.toFixed(2)+' USD\\n\u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \\nEstado titulo:   '+v.titulo.replace('_',' ').toUpperCase()+'\\n\u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \u9552 \\nGracias por su preferencia.\\nThank you for your business.';
+  document.getElementById('recibo-content').textContent=txt;
+  openModal('modal-recibo');
+}
+
+function copyRecibo(){
+  const txt=document.getElementById('recibo-content').textContent;
+  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>alert('Copiado — listo para WhatsApp'));}
+  else{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Copiado');}
+}
+
+renderDashboard();renderClientes();renderVehiculos();
+</script>
+</body>
+</html>
