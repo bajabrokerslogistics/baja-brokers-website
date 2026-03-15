@@ -789,101 +789,7 @@
       <h2>Carros <span>en Venta</span></h2>
       <p>Unidades disponibles directamente con nosotros. Precio incluye importación y entrega en Tijuana.</p>
     </div>
-    <div class="venta-grid">
-
-      <!-- ════════════════════════════════════════════
-           COPIA UN BLOQUE .venta-card PARA AGREGAR UN CARRO
-           Cambia: imagen, badge, título, precio, specs, descripción y el link de WhatsApp
-           IMPORTANTE: deja onclick="openCarroModal(this)" en el div.venta-card
-                       y onclick="event.stopPropagation()" en el a.venta-cta
-           ════════════════════════════════════════════ -->
-
-      <!-- EJEMPLO CARRO 1 -->
-      <div class="venta-card" onclick="openCarroModal(this)">
-        <div class="venta-img">
-          <!-- Reemplaza el placeholder con: <img src="foto-del-carro.jpg" alt="nombre del carro"> -->
-          <div class="venta-img-placeholder">
-            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
-            <span>Agregar foto</span>
-          </div>
-          <span class="venta-badge disponible">Disponible</span>
-        </div>
-        <div class="venta-body">
-          <div class="venta-title">2019 Ford F-150 XLT</div>
-          <div class="venta-price">$18,500 USD <small>o su eq. en MXN</small></div>
-          <div class="venta-specs">
-            <span class="venta-spec">85,000 mi</span>
-            <span class="venta-spec">V6 3.5L</span>
-            <span class="venta-spec">4x4</span>
-            <span class="venta-spec">Automático</span>
-            <span class="venta-spec">Reparado</span>
-          </div>
-          <p class="venta-desc">Pickup en excelente condición. Daño cosmético en defensa trasera ya reparado. Lista para circular.</p>
-          <a class="venta-cta" href="https://wa.me/526641377493?text=Hola,%20me%20interesa%20la%20Ford%20F-150%202019" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-            Consultar por WhatsApp
-          </a>
-        </div>
-      </div>
-
-      <!-- EJEMPLO CARRO 2 -->
-
-      <div class="venta-card" onclick="openCarroModal(this)">
-        <div class="venta-img">
-          <div class="venta-img-placeholder">
-            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
-            <span>Agregar foto</span>
-          </div>
-          <span class="venta-badge disponible">Disponible</span>
-        </div>
-        <div class="venta-body">
-          <div class="venta-title">2021 Toyota RAV4 LE</div>
-          <div class="venta-price">$22,000 USD <small>o su eq. en MXN</small></div>
-          <div class="venta-specs">
-            <span class="venta-spec">42,000 mi</span>
-            <span class="venta-spec">2.5L 4cil</span>
-            <span class="venta-spec">AWD</span>
-            <span class="venta-spec">Automático</span>
-            <span class="venta-spec">Clean title</span>
-          </div>
-          <p class="venta-desc">SUV en perfectas condiciones. Título limpio. Ideal para familia. Entrega en Tijuana.</p>
-          <a class="venta-cta" href="https://wa.me/526641377493?text=Hola,%20me%20interesa%20el%20Toyota%20RAV4%202021" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-            Consultar por WhatsApp
-          </a>
-        </div>
-      </div>
-
-      <!-- EJEMPLO CARRO 3 -->
-      <div class="venta-card" onclick="openCarroModal(this)">
-        <div class="venta-img">
-          <div class="venta-img-placeholder">
-            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
-            <span>Agregar foto</span>
-          </div>
-          <span class="venta-badge reservado">Reservado</span>
-        </div>
-        <div class="venta-body">
-          <div class="venta-title">2020 Chevrolet Silverado LT</div>
-          <div class="venta-price">$21,000 USD <small>o su eq. en MXN</small></div>
-          <div class="venta-specs">
-            <span class="venta-spec">67,000 mi</span>
-            <span class="venta-spec">V8 5.3L</span>
-            <span class="venta-spec">4x4</span>
-            <span class="venta-spec">Crew Cab</span>
-            <span class="venta-spec">Reparado</span>
-          </div>
-          <p class="venta-desc">Silverado cabina doble. Golpe lateral reparado. Motor y transmisión en perfectas condiciones.</p>
-          <a class="venta-cta" href="https://wa.me/526641377493?text=Hola,%20me%20interesa%20el%20Silverado%202020%20(reservado)" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-            Preguntar disponibilidad
-          </a>
-        </div>
-      </div>
-
-      <!-- AGREGA MÁS CARROS AQUÍ  →  copia el bloque .venta-card de arriba -->
-
-    </div>
+    <div class="venta-grid" id="venta-grid"></div>
   </div>
 </section>
 
@@ -1092,6 +998,93 @@
 </a>
 
 <script>
+// ════════════════════════════════════════════════════════════
+//  LISTA DE CARROS EN VENTA
+//  ─────────────────────────────────────────────────────────
+//  Para AGREGAR un carro: copia uno de los bloques y pégalo
+//  al final de la lista (antes del ];), cambia los datos.
+//
+//  Campos:
+//    titulo  → nombre del carro  (ej: "2022 Toyota Tacoma SR5")
+//    precio  → precio en USD     (ej: "$24,000 USD")
+//    foto    → ruta a la imagen  (ej: "fotos/tacoma-2022.jpg")
+//              dejar "" si aún no tienes foto
+//    badge   → "disponible" | "reservado" | "vendido"
+//    specs   → lista de características cortas
+//    desc    → descripción larga del carro
+//    wa      → texto que aparecerá en el mensaje de WhatsApp
+// ════════════════════════════════════════════════════════════
+const carros = [
+  {
+    titulo: "2019 Ford F-150 XLT",
+    precio: "$18,500 USD",
+    foto:   "",
+    badge:  "disponible",
+    specs:  ["85,000 mi", "V6 3.5L", "4x4", "Automático", "Reparado"],
+    desc:   "Pickup en excelente condición. Daño cosmético en defensa trasera ya reparado. Lista para circular.",
+    wa:     "me interesa la Ford F-150 2019"
+  },
+  {
+    titulo: "2021 Toyota RAV4 LE",
+    precio: "$22,000 USD",
+    foto:   "",
+    badge:  "disponible",
+    specs:  ["42,000 mi", "2.5L 4cil", "AWD", "Automático", "Clean title"],
+    desc:   "SUV en perfectas condiciones. Título limpio. Ideal para familia. Entrega en Tijuana.",
+    wa:     "me interesa el Toyota RAV4 2021"
+  },
+  {
+    titulo: "2020 Chevrolet Silverado LT",
+    precio: "$21,000 USD",
+    foto:   "",
+    badge:  "reservado",
+    specs:  ["67,000 mi", "V8 5.3L", "4x4", "Crew Cab", "Reparado"],
+    desc:   "Silverado cabina doble. Golpe lateral reparado. Motor y transmisión en perfectas condiciones.",
+    wa:     "me interesa el Silverado 2020"
+  },
+];
+
+// ── Renderiza las tarjetas automáticamente ──
+(function renderCarros() {
+  const WA_NUM = "526641377493";
+  const SVG_CAR = `<svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>`;
+  const SVG_WA  = `<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>`;
+
+  const badgeLabel = { disponible: "Disponible", reservado: "Reservado", vendido: "Vendido" };
+  const ctaLabel   = { disponible: "Consultar por WhatsApp", reservado: "Preguntar disponibilidad", vendido: "Ver más información" };
+
+  const grid = document.getElementById('venta-grid');
+  if (!grid) return;
+
+  carros.forEach(c => {
+    const waHref = `https://wa.me/${WA_NUM}?text=Hola,%20${encodeURIComponent(c.wa)}`;
+    const imgHTML = c.foto
+      ? `<img src="${c.foto}" alt="${c.titulo}">`
+      : `<div class="venta-img-placeholder">${SVG_CAR}<span>Sin foto aún</span></div>`;
+    const specsHTML = c.specs.map(s => `<span class="venta-spec">${s}</span>`).join('');
+
+    const card = document.createElement('div');
+    card.className = 'venta-card';
+    card.onclick = () => openCarroModal(card);
+    card.innerHTML = `
+      <div class="venta-img">
+        ${imgHTML}
+        <span class="venta-badge ${c.badge}">${badgeLabel[c.badge] || c.badge}</span>
+      </div>
+      <div class="venta-body">
+        <div class="venta-title">${c.titulo}</div>
+        <div class="venta-price">${c.precio} <small>o su eq. en MXN</small></div>
+        <div class="venta-specs">${specsHTML}</div>
+        <p class="venta-desc">${c.desc}</p>
+        <a class="venta-cta" href="${waHref}" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          ${SVG_WA}${ctaLabel[c.badge] || 'Consultar por WhatsApp'}
+        </a>
+      </div>`;
+    grid.appendChild(card);
+  });
+})();
+
 // ── MODAL CARRO ──
 function openCarroModal(card) {
   const modal   = document.getElementById('carroModal');
