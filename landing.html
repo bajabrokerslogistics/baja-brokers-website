@@ -296,6 +296,63 @@
     }
     .faq-item.open .faq-a { max-height: 300px; padding: 0 1.25rem 1.1rem; }
 
+    /* ── EN VENTA ── */
+    .venta-section { background: var(--negro); }
+    .venta-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: 1.5rem;
+    }
+    .venta-card {
+      background: var(--negro2); border: 1px solid #222; border-radius: 18px; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .venta-card:hover { border-color: #444; transform: translateY(-4px); }
+    .venta-img {
+      position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden;
+      background: #161616; display: flex; align-items: center; justify-content: center;
+    }
+    .venta-img img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .venta-img-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: #333;
+    }
+    .venta-img-placeholder svg { width: 56px; height: 56px; fill: #2a2a2a; }
+    .venta-img-placeholder span { font-size: 0.75rem; color: #333; }
+    .venta-badge {
+      position: absolute; top: 10px; left: 10px;
+      padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .venta-badge.disponible { background: #16a34a; color: #fff; }
+    .venta-badge.reservado  { background: #d97706; color: #fff; }
+    .venta-badge.vendido    { background: #6b7280; color: #fff; }
+    .venta-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; gap: 0.75rem; }
+    .venta-title { font-size: 1.05rem; font-weight: 800; line-height: 1.3; }
+    .venta-price { font-size: 1.45rem; font-weight: 900; color: var(--rojo); letter-spacing: -0.01em; }
+    .venta-price small { font-size: 0.75rem; font-weight: 500; color: var(--gris); margin-left: 4px; }
+    .venta-specs { display: flex; flex-wrap: wrap; gap: 6px; }
+    .venta-spec {
+      background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 6px;
+      padding: 3px 9px; font-size: 0.75rem; color: var(--gris);
+    }
+    .venta-desc { font-size: 0.83rem; color: var(--gris); line-height: 1.6; flex: 1; }
+    .venta-cta {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #25d366; color: #fff; border-radius: 10px;
+      padding: 0.7rem 1rem; font-size: 0.88rem; font-weight: 700;
+      text-decoration: none; transition: background 0.2s, transform 0.15s;
+    }
+    .venta-cta:hover { background: #1fba58; transform: scale(1.02); }
+    .venta-cta svg { width: 18px; height: 18px; fill: #fff; flex-shrink: 0; }
+    .venta-empty {
+      grid-column: 1/-1; text-align: center; padding: 4rem 2rem;
+      color: var(--gris); border: 2px dashed #222; border-radius: 18px;
+    }
+    .venta-empty svg { width: 52px; height: 52px; fill: #2a2a2a; margin: 0 auto 1rem; display: block; }
+    .venta-empty p { font-size: 0.9rem; }
+
     /* ── FINAL CTA ── */
     .final-cta {
       background: radial-gradient(ellipse 70% 90% at 50% 50%, rgba(224,28,36,0.15) 0%, transparent 70%), var(--negro);
@@ -373,6 +430,7 @@
   <ul class="nav-links" id="nav-links">
     <li><a href="#inicio">Inicio</a></li>
     <li><a href="#subastas">Subastas</a></li>
+    <li><a href="#en-venta">En Venta</a></li>
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#como-funciona">Cómo funciona</a></li>
     <li><a href="#testimonios">Testimonios</a></li>
@@ -657,6 +715,108 @@
   </a>
 </div>
 
+<!-- ══ EN VENTA ══ -->
+<section class="venta-section" id="en-venta">
+  <div class="section-inner">
+    <div class="section-title">
+      <h2>Carros <span>en Venta</span></h2>
+      <p>Unidades disponibles directamente con nosotros. Precio incluye importación y entrega en Tijuana.</p>
+    </div>
+    <div class="venta-grid">
+
+      <!-- ════════════════════════════════════════════
+           COPIA UN BLOQUE .venta-card PARA AGREGAR UN CARRO
+           Cambia: imagen, badge, título, precio, specs, descripción y el link de WhatsApp
+           ════════════════════════════════════════════ -->
+
+      <!-- EJEMPLO CARRO 1 -->
+      <div class="venta-card">
+        <div class="venta-img">
+          <!-- Reemplaza el placeholder con: <img src="foto-del-carro.jpg" alt="nombre del carro"> -->
+          <div class="venta-img-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+            <span>Agregar foto</span>
+          </div>
+          <span class="venta-badge disponible">Disponible</span>
+        </div>
+        <div class="venta-body">
+          <div class="venta-title">2019 Ford F-150 XLT</div>
+          <div class="venta-price">$18,500 USD <small>o su eq. en MXN</small></div>
+          <div class="venta-specs">
+            <span class="venta-spec">85,000 mi</span>
+            <span class="venta-spec">V6 3.5L</span>
+            <span class="venta-spec">4x4</span>
+            <span class="venta-spec">Automático</span>
+            <span class="venta-spec">Reparado</span>
+          </div>
+          <p class="venta-desc">Pickup en excelente condición. Daño cosmético en defensa trasera ya reparado. Lista para circular.</p>
+          <a class="venta-cta" href="https://wa.me/526641377493?text=Hola,%20me%20interesa%20la%20Ford%20F-150%202019" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
+            Consultar por WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- EJEMPLO CARRO 2 -->
+      <div class="venta-card">
+        <div class="venta-img">
+          <div class="venta-img-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+            <span>Agregar foto</span>
+          </div>
+          <span class="venta-badge disponible">Disponible</span>
+        </div>
+        <div class="venta-body">
+          <div class="venta-title">2021 Toyota RAV4 LE</div>
+          <div class="venta-price">$22,000 USD <small>o su eq. en MXN</small></div>
+          <div class="venta-specs">
+            <span class="venta-spec">42,000 mi</span>
+            <span class="venta-spec">2.5L 4cil</span>
+            <span class="venta-spec">AWD</span>
+            <span class="venta-spec">Automático</span>
+            <span class="venta-spec">Clean title</span>
+          </div>
+          <p class="venta-desc">SUV en perfectas condiciones. Título limpio. Ideal para familia. Entrega en Tijuana.</p>
+          <a class="venta-cta" href="https://wa.me/526641377493?text=Hola,%20me%20interesa%20el%20Toyota%20RAV4%202021" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
+            Consultar por WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- EJEMPLO CARRO 3 -->
+      <div class="venta-card">
+        <div class="venta-img">
+          <div class="venta-img-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+            <span>Agregar foto</span>
+          </div>
+          <span class="venta-badge reservado">Reservado</span>
+        </div>
+        <div class="venta-body">
+          <div class="venta-title">2020 Chevrolet Silverado LT</div>
+          <div class="venta-price">$21,000 USD <small>o su eq. en MXN</small></div>
+          <div class="venta-specs">
+            <span class="venta-spec">67,000 mi</span>
+            <span class="venta-spec">V8 5.3L</span>
+            <span class="venta-spec">4x4</span>
+            <span class="venta-spec">Crew Cab</span>
+            <span class="venta-spec">Reparado</span>
+          </div>
+          <p class="venta-desc">Silverado cabina doble. Golpe lateral reparado. Motor y transmisión en perfectas condiciones.</p>
+          <a class="venta-cta" href="https://wa.me/526641377493?text=Hola,%20me%20interesa%20el%20Silverado%202020%20(reservado)" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
+            Preguntar disponibilidad
+          </a>
+        </div>
+      </div>
+
+      <!-- AGREGA MÁS CARROS AQUÍ  →  copia el bloque .venta-card de arriba -->
+
+    </div>
+  </div>
+</section>
+
 <!-- ══ TESTIMONIALS ══ -->
 <section class="testimonials" id="testimonios">
   <div class="section-inner">
@@ -808,6 +968,7 @@
     <div class="footer-col">
       <h4>Navegación</h4>
       <a href="#inicio">Inicio</a>
+      <a href="#en-venta">En Venta</a>
       <a href="#servicios">Servicios</a>
       <a href="#como-funciona">Cómo funciona</a>
       <a href="#testimonios">Testimonios</a>
