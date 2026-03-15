@@ -148,16 +148,34 @@
     .section-title h2 span { color: var(--rojo); }
     .section-title p { color: var(--gris); margin-top: 0.6rem; font-size: 1rem; max-width: 520px; margin-left: auto; margin-right: auto; }
 
-    /* ── AUCTIONS STRIP ── */
-    .auctions { background: var(--negro2); border-top: 1px solid #1f1f1f; border-bottom: 1px solid #1f1f1f; padding: 3rem 1.5rem; }
-    .auctions h3 { text-align: center; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gris); margin-bottom: 1.8rem; }
-    .auction-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-    .auction-tag {
-      background: var(--negro3); border: 1px solid #2a2a2a; border-radius: 8px;
-      padding: 9px 18px; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.06em;
-      color: var(--blanco); transition: border-color 0.2s, color 0.2s;
+    /* ── AUCTIONS SECTION ── */
+    .subastas-section { background: var(--negro2); }
+    .subastas-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1.25rem;
     }
-    .auction-tag:hover { border-color: var(--rojo); color: var(--rojo); }
+    .subasta-card {
+      background: var(--negro3); border: 1px solid #2a2a2a; border-radius: 16px;
+      padding: 1.75rem 1.5rem; text-decoration: none; color: var(--blanco);
+      display: flex; flex-direction: column; gap: 0.5rem;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      cursor: pointer; position: relative; overflow: hidden;
+    }
+    .subasta-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--rojo); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .subasta-card:hover { border-color: var(--rojo); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(224,28,36,0.15); }
+    .subasta-card:hover::before { transform: scaleX(1); }
+    .subasta-emoji { font-size: 1.8rem; margin-bottom: 0.25rem; }
+    .subasta-card h3 { font-size: 1rem; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; }
+    .subasta-card p { font-size: 0.82rem; color: var(--gris); line-height: 1.5; flex: 1; }
+    .subasta-link {
+      font-size: 0.78rem; font-weight: 700; color: var(--rojo);
+      letter-spacing: 0.05em; margin-top: 0.5rem;
+      opacity: 0; transform: translateX(-6px); transition: opacity 0.2s, transform 0.2s;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .subasta-card:hover .subasta-link { opacity: 1; transform: translateX(0); }
 
     /* ── HOW IT WORKS ── */
     .how { background: var(--negro); }
@@ -342,6 +360,7 @@
 
   <ul class="nav-links" id="nav-links">
     <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#subastas">Subastas</a></li>
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#como-funciona">Cómo funciona</a></li>
     <li><a href="#testimonios">Testimonios</a></li>
@@ -389,22 +408,88 @@
   </div>
 </div>
 
-<!-- ══ AUCTIONS STRIP ══ -->
-<div class="auctions">
-  <h3>Trabajamos con las principales subastas de Estados Unidos</h3>
-  <div class="auction-logos">
-    <div class="auction-tag">COPART</div>
-    <div class="auction-tag">IAAI</div>
-    <div class="auction-tag">MANHEIM</div>
-    <div class="auction-tag">OPENLANE</div>
-    <div class="auction-tag">EBLOCK</div>
-    <div class="auction-tag">ADESA</div>
-    <div class="auction-tag">CARMAX</div>
-    <div class="auction-tag">ACV AUCTIONS</div>
-    <div class="auction-tag">RITCHIE BROS.</div>
-    <div class="auction-tag">NPA</div>
+<!-- ══ SUBASTAS ══ -->
+<section class="subastas-section" id="subastas">
+  <div class="section-inner">
+    <div class="section-title">
+      <h2>Subastas <span>Disponibles</span></h2>
+      <p>Accede a las principales plataformas de subasta de EE.UU. Haz clic en cualquier tarjeta para visitar el sitio oficial.</p>
+    </div>
+    <div class="subastas-grid">
+
+      <a class="subasta-card" href="https://www.copart.com" target="_blank" rel="noopener">
+        <div class="subasta-emoji">🚗</div>
+        <h3>Copart</h3>
+        <p>Una de las mayores subastas de autos dañados y de uso en EE.UU. Millones de lotes disponibles.</p>
+        <span class="subasta-link">Visitar sitio oficial →</span>
+      </a>
+
+      <a class="subasta-card" href="https://www.iaai.com" target="_blank" rel="noopener">
+        <div class="subasta-emoji">🔧</div>
+        <h3>IAAI</h3>
+        <p>Insurance Auto Auctions. Especialistas en vehículos de siniestro con cobertura nacional.</p>
+        <span class="subasta-link">Visitar sitio oficial →</span>
+      </a>
+
+      <a class="subasta-card" href="https://www.manheim.com" target="_blank" rel="noopener">
+        <div class="subasta-emoji">🏁</div>
+        <h3>Manheim</h3>
+        <p>La red de subastas de autos usados más grande del mundo, con ubicaciones en todo EE.UU.</p>
+        <span class="subasta-link">Visitar sitio oficial →</span>
+      </a>
+
+      <a class="subasta-card" href="https://www.openlane.com" target="_blank" rel="noopener">
+        <div class="subasta-emoji">💻</div>
+        <h3>OpenLane</h3>
+        <p>Plataforma digital para subastas en línea de vehículos de flota, arrendamiento y concesionarios.</p>
+        <span class="subasta-link">Visitar sitio oficial →</span>
+      </a>
+
+      <a class="subasta-card" href="https://www.eblock.ca" target="_blank" rel="noopener">
+        <div class="subasta-emoji">📱</div>
+        <h3>Eblock</h3>
+        <p>Subasta digital en tiempo real para concesionarios. Acceso sencillo y proceso ágil.</p>
+        <span class="subasta-link">Visitar sitio oficial →</span>
+      </a>
+
+      <a class="subasta-card" href="https://www.adesa.com" target="_blank" rel="noopener">
+        <div class="subasta-emoji">🏢</div>
+        <h3>ADESA</h3>
+        <p>Red de subastas físicas y digitales con amplia selección de vehículos de uso y flota.</p>
+        <span class="subasta-link">Visitar sitio oficial →</span>
+      </a>
+
+      <a class="subasta-card" href="https://www.carmax.com" target="_blank" rel="noopener">
+        <div class="subasta-emoji">⭐</div>
+        <h3>CarMax</h3>
+        <p>Autos seminuevos certificados, inspeccionados y con garantía. Ideal para compras confiables.</p>
+        <span class="subasta-link">Visitar sitio oficial →</span>
+      </a>
+
+      <a class="subasta-card" href="https://www.acvauctions.com" target="_blank" rel="noopener">
+        <div class="subasta-emoji">🔄</div>
+        <h3>ACV Auctions</h3>
+        <p>Plataforma B2B con subastas en tiempo real y herramienta de inspección de 360 puntos.</p>
+        <span class="subasta-link">Visitar sitio oficial →</span>
+      </a>
+
+      <a class="subasta-card" href="https://www.rbauction.com" target="_blank" rel="noopener">
+        <div class="subasta-emoji">🚛</div>
+        <h3>Ritchie Bros.</h3>
+        <p>Especialistas en maquinaria pesada, camiones y equipo de construcción a nivel mundial.</p>
+        <span class="subasta-link">Visitar sitio oficial →</span>
+      </a>
+
+      <a class="subasta-card" href="https://www.npauctions.com" target="_blank" rel="noopener">
+        <div class="subasta-emoji">🏛️</div>
+        <h3>NPA</h3>
+        <p>National Powersport Auctions. Especialistas en motocicletas, ATVs y vehículos recreativos.</p>
+        <span class="subasta-link">Visitar sitio oficial →</span>
+      </a>
+
+    </div>
   </div>
-</div>
+</section>
 
 <!-- ══ HOW IT WORKS ══ -->
 <section id="como-funciona">
@@ -689,11 +774,11 @@
 
     <div class="footer-col">
       <h4>Subastas</h4>
-      <a href="#">Copart</a>
-      <a href="#">IAAI</a>
-      <a href="#">Manheim</a>
-      <a href="#">OpenLane</a>
-      <a href="#">Ritchie Bros.</a>
+      <a href="https://www.copart.com" target="_blank" rel="noopener">Copart</a>
+      <a href="https://www.iaai.com" target="_blank" rel="noopener">IAAI</a>
+      <a href="https://www.manheim.com" target="_blank" rel="noopener">Manheim</a>
+      <a href="https://www.openlane.com" target="_blank" rel="noopener">OpenLane</a>
+      <a href="https://www.rbauction.com" target="_blank" rel="noopener">Ritchie Bros.</a>
     </div>
   </div>
 
