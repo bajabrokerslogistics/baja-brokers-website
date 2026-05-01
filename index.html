@@ -1,1202 +1,310 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Baja Brokers Logistics – Compra autos en subastas de EE.UU.</title>
-  <meta name="description" content="Accede a Copart, IAAI, Manheim y más sin licencia de dealer. Baja Brokers Logistics gestiona todo el proceso para compradores en México.">
+  <meta name="description" content="Acceso real a Copart, IAAI, Manheim, Adesa, ACV y más desde Tijuana. Proceso claro, logística completa hasta México." />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --negro: #0a0a0a;
-      --negro2: #111;
-      --negro3: #1a1a1a;
-      --rojo: #e01c24;
-      --rojo2: #c0151c;
-      --blanco: #fff;
-      --gris: #9ca3af;
-      --gris2: #374151;
-    }
     html { scroll-behavior: smooth; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--negro); color: var(--blanco); line-height: 1.6; }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
-      border-bottom: 1px solid #1f1f1f;
-      padding: 0 2rem; height: 76px;
-      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    }
-    .nav-brand {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 4px; flex-shrink: 0; order: 3;
-    }
-    .nav-brand img {
-      height: 36px; display: none;
-    }
-    .nav-brand-text {
-      font-size: 1.1rem; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.1;
-      text-align: center;
-    }
-    .nav-brand-text .red { color: var(--rojo); }
-    .nav-brand-text .sub { display: block; font-size: 0.55rem; letter-spacing: 0.25em; color: var(--gris); font-weight: 600; }
-    .nav-links {
-      display: flex; gap: 1.5rem; list-style: none;
-    }
-    .nav-links a {
-      color: var(--gris); text-decoration: none; font-size: 0.88rem; font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--blanco); }
-    .nav-cta {
-      display: flex; align-items: center; gap: 7px;
-      background: #25d366; color: #fff;
-      padding: 9px 18px; border-radius: 8px;
-      text-decoration: none; font-size: 0.88rem; font-weight: 700; white-space: nowrap;
-      transition: background 0.2s, transform 0.15s; order: 2;
-    }
-    .nav-cta:hover { background: #1ebe59; transform: translateY(-1px); }
-    .nav-cta svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
-    .nav-links { order: 1; }
-    .nav-mobile-btn { display: none; background: none; border: none; color: var(--blanco); cursor: pointer; padding: 4px; order: 1; }
-    .nav-mobile-btn svg { width: 24px; height: 24px; fill: var(--blanco); }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .nav-links.open {
-        display: flex; flex-direction: column; gap: 0;
-        position: fixed; top: 76px; left: 0; right: 0;
-        background: rgba(10,10,10,0.98); border-bottom: 1px solid #222;
-        padding: 1rem 2rem 1.5rem;
-      }
-      .nav-links.open a { padding: 10px 0; border-bottom: 1px solid #1f1f1f; font-size: 1rem; }
-      .nav-mobile-btn { display: block; }
-      .nav-cta { display: none; }
-    }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      background:
-        radial-gradient(ellipse 70% 55% at 50% 45%, rgba(224,28,36,0.13) 0%, transparent 65%),
-        linear-gradient(180deg, #0a0a0a 0%, #0f0f0f 100%);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 100px 1.5rem 4rem;
-    }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--rojo); margin-bottom: 1rem;
-      background: rgba(224,28,36,0.08); border: 1px solid rgba(224,28,36,0.2);
-      padding: 5px 14px; border-radius: 999px;
-    }
-    .hero h1 {
-      font-size: clamp(2rem, 6vw, 4rem); font-weight: 900; line-height: 1.05;
-      letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 0.5rem;
-    }
-    .hero h1 .hero-price { color: var(--rojo); }
-    .hero h1 .line2 {
-      display: flex; align-items: center; justify-content: center; gap: 14px;
-      font-size: clamp(0.9rem, 2.2vw, 1.2rem); font-weight: 700; letter-spacing: 0.3em;
-      color: var(--gris); margin-top: 0.2rem; margin-bottom: 1.4rem;
-    }
-    .hero h1 .line2::before, .hero h1 .line2::after {
-      content: ''; flex: 1; max-width: 60px; height: 2px; background: var(--rojo);
-    }
-    .hero-tagline {
-      font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--gris);
-      max-width: 580px; margin: 0 auto 0.6rem; line-height: 1.7;
-    }
-    .hero-tagline strong { color: var(--blanco); }
-    .hero-sub2 {
-      font-size: 0.88rem; color: #6b7280; margin-bottom: 2rem;
-    }
-    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-
-    /* hero trust row */
-    .hero-trust {
-      display: flex; align-items: center; gap: 10px 16px; flex-wrap: wrap; justify-content: center;
-      margin-top: 1.75rem; font-size: 0.8rem; color: var(--gris);
-    }
-    .trust-item { display: flex; align-items: center; gap: 5px; }
-    .trust-icon { color: var(--rojo); font-weight: 900; font-size: 0.85rem; }
-    .trust-sep { color: #2a2a2a; font-size: 1.1rem; }
-
-    /* hero mini steps */
-    .hero-steps {
-      display: flex; align-items: center; justify-content: center;
-      gap: 0.5rem; flex-wrap: wrap;
-      margin-top: 2.25rem; padding: 1.25rem 2rem;
-      background: rgba(255,255,255,0.025); border: 1px solid #1f1f1f; border-radius: 16px;
-      max-width: 700px; width: 100%;
-    }
-    .hero-step { display: flex; align-items: center; gap: 10px; text-align: left; padding: 4px 0; }
-    .hero-step-num {
-      width: 32px; height: 32px; background: var(--rojo); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; font-weight: 900; flex-shrink: 0;
-    }
-    .hero-step-text { display: flex; flex-direction: column; }
-    .hero-step-text strong { font-size: 0.85rem; font-weight: 700; color: var(--blanco); line-height: 1.2; }
-    .hero-step-text span { font-size: 0.72rem; color: var(--gris); }
-    .hero-step-arrow { color: #2a2a2a; font-size: 1.3rem; font-weight: 900; padding: 0 4px; }
-    @media (max-width: 620px) {
-      .hero-steps { flex-direction: column; align-items: flex-start; padding: 1.25rem 1.25rem; }
-      .hero-step-arrow { transform: rotate(90deg); align-self: center; }
-      .trust-sep { display: none; }
-      .hero-trust { flex-direction: column; gap: 6px; }
-    }
-    .btn-wa {
-      display: flex; align-items: center; gap: 8px;
-      background: #25d366; color: #fff;
-      padding: 14px 28px; border-radius: 10px;
-      text-decoration: none; font-size: 1rem; font-weight: 700;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn-wa:hover { background: #1ebe59; transform: translateY(-2px); }
-    .btn-wa svg { width: 20px; height: 20px; fill: #fff; }
-    .btn-outline {
-      display: flex; align-items: center; gap: 8px;
-      border: 2px solid #2a2a2a; color: var(--blanco);
-      padding: 14px 28px; border-radius: 10px;
-      text-decoration: none; font-size: 1rem; font-weight: 600;
-      transition: border-color 0.2s, transform 0.15s;
-    }
-    .btn-outline:hover { border-color: var(--rojo); transform: translateY(-2px); }
-
-    /* ── STATS BAR ── */
-    .stats {
-      background: var(--negro2); border-top: 1px solid #1f1f1f; border-bottom: 1px solid #1f1f1f;
-      padding: 2rem 1.5rem;
-    }
-    .stats-inner {
-      max-width: 900px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
-      gap: 1.5rem; text-align: center;
-    }
-    .stat-num { font-size: 2rem; font-weight: 900; color: var(--rojo); line-height: 1; }
-    .stat-label { font-size: 0.78rem; color: var(--gris); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
-
-    /* ── SECTIONS SHARED ── */
-    section { padding: 5rem 1.5rem; }
-    .section-inner { max-width: 1040px; margin: 0 auto; }
-    .section-title { text-align: center; margin-bottom: 3rem; }
-    .section-title h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900; text-transform: uppercase; letter-spacing: 0.02em; }
-    .section-title h2 span { color: var(--rojo); }
-    .section-title p { color: var(--gris); margin-top: 0.6rem; font-size: 1rem; max-width: 520px; margin-left: auto; margin-right: auto; }
-
-    /* ── AUCTIONS STRIP ── */
-    .auctions { background: var(--negro2); border-top: 1px solid #1f1f1f; border-bottom: 1px solid #1f1f1f; padding: 3rem 1.5rem; }
-    .auctions h3 { text-align: center; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gris); margin-bottom: 1.8rem; }
-    .auction-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-    .auction-tag {
-      background: var(--negro3); border: 1px solid #2a2a2a; border-radius: 8px;
-      padding: 9px 18px; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.06em;
-      color: var(--blanco); transition: border-color 0.2s, color 0.2s;
-    }
-    .auction-tag:hover { border-color: var(--rojo); color: var(--rojo); }
-
-    /* ── HOW IT WORKS ── */
-    .how { background: var(--negro); }
-    .steps-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 1.25rem;
-    }
-    .step-card {
-      background: var(--negro2); border: 1px solid #1f1f1f; border-radius: 16px;
-      padding: 2rem 1.5rem; text-align: center; position: relative;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .step-card:hover { border-color: #333; transform: translateY(-4px); }
-    .step-num {
-      width: 52px; height: 52px; background: var(--rojo); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; font-weight: 900; margin: 0 auto 1rem;
-    }
-    .step-icon { font-size: 2rem; margin-bottom: 0.75rem; }
-    .step-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .step-card p { font-size: 0.85rem; color: var(--gris); line-height: 1.6; }
-
-    /* ── SERVICES ── */
-    .services-section { background: var(--negro3); }
-    .services-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1.25rem;
-    }
-    .service-card {
-      background: var(--negro2); border: 1px solid #222; border-radius: 16px;
-      padding: 1.75rem; position: relative; overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .service-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: var(--rojo); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
-    }
-    .service-card:hover { border-color: #444; transform: translateY(-4px); }
-    .service-card:hover::before { transform: scaleX(1); }
-    .service-icon {
-      width: 48px; height: 48px; background: rgba(224,28,36,0.12); border: 1px solid rgba(224,28,36,0.25);
-      border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; margin-bottom: 1rem;
-    }
-    .service-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .service-card p { font-size: 0.86rem; color: var(--gris); line-height: 1.6; }
-
-    /* ── WHY US ── */
-    .why { background: var(--negro); }
-    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; }
-    .why-item {
-      display: flex; align-items: flex-start; gap: 12px;
-      background: var(--negro2); border: 1px solid #1f1f1f; border-radius: 12px; padding: 1.25rem;
-    }
-    .why-check {
-      width: 28px; height: 28px; background: rgba(224,28,36,0.15); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
-      color: var(--rojo); font-size: 0.9rem; font-weight: 900;
-    }
-    .why-item h4 { font-size: 0.92rem; font-weight: 700; margin-bottom: 3px; }
-    .why-item p { font-size: 0.82rem; color: var(--gris); line-height: 1.5; }
-
-    /* ── MID CTA ── */
-    .mid-cta {
-      background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(224,28,36,0.12) 0%, transparent 70%), var(--negro2);
-      border-top: 1px solid #1f1f1f; border-bottom: 1px solid #1f1f1f;
-      padding: 4rem 1.5rem; text-align: center;
-    }
-    .mid-cta h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 900; text-transform: uppercase; margin-bottom: 0.75rem; }
-    .mid-cta p { color: var(--gris); font-size: 1rem; margin-bottom: 2rem; max-width: 460px; margin-left: auto; margin-right: auto; }
-
-    /* ── TESTIMONIALS ── */
-    .testimonials { background: var(--negro3); }
-    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1.25rem; }
-    .testimonial {
-      background: var(--negro2); border: 1px solid #222; border-radius: 16px; padding: 1.75rem;
-    }
-    .testimonial-stars { color: var(--rojo); font-size: 1.1rem; margin-bottom: 0.75rem; }
-    .testimonial p { font-size: 0.9rem; color: #d1d5db; line-height: 1.7; margin-bottom: 1.25rem; font-style: italic; }
-    .testimonial-author { display: flex; align-items: center; gap: 10px; }
-    .testimonial-avatar {
-      width: 38px; height: 38px; background: var(--rojo); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 700;
-    }
-    .testimonial-name { font-size: 0.88rem; font-weight: 700; }
-    .testimonial-location { font-size: 0.78rem; color: var(--gris); }
-
-    /* ── FAQ ── */
-    .faq { background: var(--negro); }
-    .faq-list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-    .faq-item {
-      background: var(--negro2); border: 1px solid #1f1f1f; border-radius: 12px; overflow: hidden;
-    }
-    .faq-q {
-      width: 100%; background: none; border: none; color: var(--blanco);
-      padding: 1.1rem 1.25rem; display: flex; justify-content: space-between; align-items: center;
-      cursor: pointer; font-size: 0.95rem; font-weight: 600; text-align: left; gap: 12px;
-      transition: background 0.2s;
-    }
-    .faq-q:hover { background: rgba(255,255,255,0.03); }
-    .faq-q .arrow {
-      width: 20px; height: 20px; flex-shrink: 0; fill: var(--gris); transition: transform 0.3s;
-    }
-    .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
-    .faq-a {
-      max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.2s;
-      font-size: 0.88rem; color: var(--gris); line-height: 1.7; padding: 0 1.25rem;
-    }
-    .faq-item.open .faq-a { max-height: 300px; padding: 0 1.25rem 1.1rem; }
-
-    /* ── FINAL CTA ── */
-    .final-cta {
-      background: radial-gradient(ellipse 70% 90% at 50% 50%, rgba(224,28,36,0.15) 0%, transparent 70%), var(--negro);
-      padding: 5rem 1.5rem; text-align: center;
-    }
-    .final-cta h2 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; }
-    .final-cta p { color: var(--gris); font-size: 1.05rem; max-width: 480px; margin: 0 auto 1.5rem; }
-    .cta-phone { display: block; font-size: 1.8rem; font-weight: 900; color: var(--rojo); text-decoration: none; margin-bottom: 1.75rem; letter-spacing: 0.05em; }
-    .cta-phone:hover { color: #ff3a42; }
-    .final-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-
-    /* ── CASOS REALES ── */
-    .casos { background: var(--negro3); }
-    .casos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1.25rem; }
-    .caso-card {
-      background: var(--negro2); border: 1px solid #222; border-radius: 16px; overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .caso-card:hover { border-color: #333; transform: translateY(-4px); }
-    .caso-img {
-      width: 100%; height: 190px; object-fit: cover; display: block;
-    }
-    .caso-img-placeholder {
-      width: 100%; height: 190px; background: var(--negro3);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3rem; color: #333;
-    }
-    .caso-body { padding: 1.25rem; }
-    .caso-title { font-size: 1rem; font-weight: 800; color: var(--blanco); margin-bottom: 1rem; }
-    .caso-breakdown { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
-    .caso-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--gris); }
-    .caso-row span:last-child { color: var(--blanco); font-weight: 600; text-align: right; }
-    .caso-row span:last-child em { font-style: normal; font-size: 0.7rem; color: var(--gris); font-weight: 500; margin-left: 3px; }
-    .caso-divider { border: none; border-top: 1px solid #2a2a2a; margin: 6px 0; }
-    .caso-total { display: flex; justify-content: space-between; align-items: center; }
-    .caso-total span:first-child { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gris); }
-    .caso-total-price { font-size: 1.3rem; font-weight: 900; color: var(--rojo); display: flex; align-items: baseline; gap: 4px; }
-    .caso-total-price em { font-style: normal; font-size: 0.72rem; color: #e06070; font-weight: 600; }
-
-    /* ── MAP SECTION ── */
-    .map-section { background: var(--negro2); border-top: 1px solid #1f1f1f; padding: 0; }
-    .map-inner {
-      max-width: 1040px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr;
-    }
-    .map-info {
-      padding: 3rem 2.5rem; display: flex; flex-direction: column; justify-content: center; gap: 1.25rem;
-    }
-    .map-info h3 { font-size: 1.3rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.03em; }
-    .map-info h3 span { color: var(--rojo); }
-    .map-detail { display: flex; align-items: flex-start; gap: 10px; }
-    .map-detail svg { width: 18px; height: 18px; fill: var(--rojo); flex-shrink: 0; margin-top: 2px; }
-    .map-detail p { font-size: 0.88rem; color: var(--gris); line-height: 1.6; }
-    .map-detail p strong { color: var(--blanco); display: block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
-    .map-embed { min-height: 320px; }
-    .map-embed iframe { width: 100%; height: 100%; min-height: 320px; border: 0; display: block; filter: grayscale(30%) contrast(1.05); }
-    @media (max-width: 700px) {
-      .map-inner { grid-template-columns: 1fr; }
-      .map-info { padding: 2rem 1.5rem; }
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: #0a0a0a; border-top: 1px solid #1a1a1a;
-      padding: 3.5rem 1.5rem 2rem;
-    }
-    .footer-inner {
-      max-width: 1040px; margin: 0 auto;
-      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem;
-    }
-    .footer-brand-name { font-size: 1.1rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; }
-    .footer-brand-name .red { color: var(--rojo); }
-    .footer-desc { font-size: 0.85rem; color: var(--gris); line-height: 1.6; margin-bottom: 1.25rem; }
-    .footer-contact a { display: flex; align-items: center; gap: 8px; color: var(--gris); text-decoration: none; font-size: 0.85rem; margin-bottom: 6px; transition: color 0.2s; }
-    .footer-contact a:hover { color: var(--blanco); }
-    .footer-contact svg { width: 14px; height: 14px; fill: var(--gris); flex-shrink: 0; }
-    .footer-social { display: flex; gap: 10px; margin-top: 1rem; }
-    .footer-social a { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform 0.2s, opacity 0.2s; }
-    .footer-social a:hover { transform: scale(1.1); opacity: 0.85; }
-    .footer-social svg { width: 16px; height: 16px; fill: #fff; }
-    .footer-col h4 { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gris); margin-bottom: 1rem; }
-    .footer-col a { display: block; color: #6b7280; text-decoration: none; font-size: 0.85rem; margin-bottom: 8px; transition: color 0.2s; }
-    .footer-col a:hover { color: var(--blanco); }
-    .footer-bottom { max-width: 1040px; margin: 2.5rem auto 0; padding-top: 1.5rem; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .footer-bottom p { font-size: 0.78rem; color: #444; }
-    .footer-bottom a { color: #555; text-decoration: none; font-size: 0.78rem; }
-    .footer-bottom a:hover { color: var(--gris); }
-
-    @media (max-width: 700px) {
-      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
-      .footer-bottom { justify-content: center; text-align: center; }
-    }
-
-    /* ── VEHICLES AVAILABLE ── */
-    .vehicles { background: var(--negro2); border-top: 1px solid #1f1f1f; border-bottom: 1px solid #1f1f1f; }
-    .vehicles-filter {
-      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 2.5rem;
-    }
-    .filter-btn {
-      background: var(--negro3); border: 1px solid #2a2a2a; color: var(--gris);
-      padding: 7px 16px; border-radius: 999px; font-size: 0.78rem; font-weight: 700;
-      letter-spacing: 0.05em; cursor: pointer; transition: all 0.2s; text-transform: uppercase;
-    }
-    .filter-btn:hover, .filter-btn.active { background: var(--rojo); border-color: var(--rojo); color: #fff; }
-    .vehicles-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem;
-    }
-    .vehicle-card {
-      background: var(--negro); border: 1px solid #222; border-radius: 16px; overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s; display: flex; flex-direction: column;
-    }
-    .vehicle-card:hover { border-color: #333; transform: translateY(-4px); }
-    .vehicle-img {
-      height: 170px; background: var(--negro3);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 4rem; position: relative; overflow: hidden;
-    }
-    .vehicle-img img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .vehicle-img .car-placeholder { font-size: 4rem; }
-    .vehicle-badge {
-      position: absolute; top: 10px; left: 10px;
-      background: var(--rojo); color: #fff; font-size: 0.65rem; font-weight: 800;
-      letter-spacing: 0.08em; padding: 3px 9px; border-radius: 999px; text-transform: uppercase;
-    }
-    .vehicle-status {
-      position: absolute; top: 10px; right: 10px;
-      font-size: 0.65rem; font-weight: 700; padding: 3px 9px; border-radius: 999px;
-      text-transform: uppercase; letter-spacing: 0.06em;
-    }
-    .vehicle-status.disponible { background: rgba(37,211,102,0.15); color: #25d366; border: 1px solid rgba(37,211,102,0.3); }
-    .vehicle-status.vendido { background: rgba(255,255,255,0.06); color: var(--gris); border: 1px solid #2a2a2a; }
-    .vehicle-body { padding: 1.1rem 1.25rem; flex: 1; display: flex; flex-direction: column; gap: 8px; }
-    .vehicle-title { font-size: 1rem; font-weight: 800; color: var(--blanco); line-height: 1.2; }
-    .vehicle-meta {
-      display: flex; gap: 10px; flex-wrap: wrap;
-    }
-    .vehicle-meta span {
-      font-size: 0.75rem; color: var(--gris); display: flex; align-items: center; gap: 4px;
-    }
-    .vehicle-price {
-      font-size: 1.4rem; font-weight: 900; color: var(--rojo); margin-top: 2px;
-    }
-    .vehicle-price small { font-size: 0.72rem; color: var(--gris); font-weight: 400; margin-left: 4px; }
-    .vehicle-cta {
-      margin-top: auto; padding-top: 10px;
-      display: flex; align-items: center; gap: 8px;
-      background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.2);
-      color: #25d366; border-radius: 10px; padding: 10px 14px;
-      text-decoration: none; font-size: 0.82rem; font-weight: 700;
-      transition: background 0.2s; justify-content: center; margin: 8px 0 0;
-    }
-    .vehicle-cta:hover { background: rgba(37,211,102,0.18); }
-    .vehicle-cta svg { width: 16px; height: 16px; fill: #25d366; flex-shrink: 0; }
-    .vehicle-cta.sold { background: none; border-color: #2a2a2a; color: var(--gris); cursor: default; pointer-events: none; }
-    .vehicles-footer { text-align: center; margin-top: 2.5rem; }
-    .vehicles-footer p { color: var(--gris); font-size: 0.9rem; margin-bottom: 1rem; }
-
-    /* ── FIND MY CAR ── */
-    .find-car { background: var(--negro2); border-top: 1px solid #1f1f1f; border-bottom: 1px solid #1f1f1f; }
-    .find-car-inner {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
-      max-width: 900px; margin: 0 auto;
-    }
-    .find-car-left h2 {
-      font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 900; text-transform: uppercase;
-      letter-spacing: 0.02em; margin-bottom: 0.75rem; line-height: 1.1;
-    }
-    .find-car-left h2 span { color: var(--rojo); }
-    .find-car-left p { color: var(--gris); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; }
-    .find-car-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 2rem; }
-    .find-car-bullets li {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 0.88rem; color: var(--gris);
-    }
-    .find-car-bullets li::before {
-      content: '✓'; color: var(--rojo); font-weight: 900; font-size: 0.9rem; flex-shrink: 0;
-    }
-    .find-car-right {
-      background: var(--negro); border: 1px solid #222; border-radius: 16px; padding: 1.75rem;
-    }
-    .find-car-right h4 {
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;
-      color: var(--gris); margin-bottom: 1.25rem;
-    }
-    .recent-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
-    .recent-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 14px; background: var(--negro2); border: 1px solid #1f1f1f; border-radius: 10px;
-    }
-    .recent-item-name { font-size: 0.88rem; font-weight: 600; color: var(--blanco); }
-    .recent-item-price { font-size: 0.88rem; font-weight: 900; color: var(--rojo); white-space: nowrap; }
-    .find-car-note { font-size: 0.75rem; color: #4b5563; text-align: center; margin-top: 10px; }
-    .find-car-budget { font-size: 0.82rem; color: var(--rojo); font-weight: 700; margin-top: -0.5rem; margin-bottom: 1.75rem; }
-    @media (max-width: 720px) {
-      .find-car-inner { grid-template-columns: 1fr; gap: 2rem; }
-    }
-
-    /* ── FLOAT BUTTON ── */
-    .wa-float {
-      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 300;
-      width: 58px; height: 58px; background: #25d366; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.45); text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.6); }
-    .wa-float svg { width: 30px; height: 30px; fill: #fff; }
-
-    @media (max-width: 600px) {
-      .hero-btns, .final-cta-btns { flex-direction: column; align-items: center; }
-      .btn-wa, .btn-outline { width: 100%; justify-content: center; max-width: 320px; }
-    }
+    body { margin: 0; background: #000; }
   </style>
 </head>
 <body>
+  <div id="root"></div>
+  <script type="text/babel">
 
-<!-- ══ NAV ══ -->
-<nav id="nav">
-  <div class="nav-brand">
-    <img src="logo.png" alt="Baja Brokers Logistics"
-         onload="this.style.display='block'"
-         onerror="this.style.display='none'">
-    <div class="nav-brand-text" id="nav-brand-text">
-      BAJA <span class="red">BROKERS</span>
-      <span class="sub">LOGISTICS</span>
-    </div>
-  </div>
+    const WHATSAPP = "https://wa.me/526641377493?text=Hola%2C%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n%20sobre%20c%C3%B3mo%20comprar%20autos%20en%20subasta%20";
 
-  <ul class="nav-links" id="nav-links">
-    <li><a href="#inicio">Inicio</a></li>
-    <li><a href="#subastas">Subastas</a></li>
-    <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#como-funciona">Cómo funciona</a></li>
-    <li><a href="#testimonios">Casos Reales</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
+    const Calendar      = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>;
+    const MapPin        = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>;
+    const MessageCircle = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>;
+    const Building2     = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>;
+    const Gavel         = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m14.5 12.5-8 8a2.119 2.119 0 0 1-3-3l8-8"/><path d="m16 16 6-6"/><path d="m8 8 6-6"/><path d="m9 7 8 8"/><path d="m21 11-8-8"/></svg>;
+    const ShieldCheck   = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>;
+    const Search        = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>;
+    const ClipboardCheck= ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>;
+    const Truck         = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect width="7" height="7" x="14" y="11" rx="1"/><path d="M5 17a2 2 0 0 0 4 0m4 0a2 2 0 0 0 4 0"/></svg>;
+    const FileCheck     = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>;
+    const Wallet        = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>;
+    const ArrowRight    = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
+    const CheckCircle   = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
 
-  <a class="nav-cta" href="https://wa.me/526641377493?text=Hola,%20quiero%20cotizar%20un%20auto" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-    Cotiza por WhatsApp
-  </a>
-
-  <button class="nav-mobile-btn" onclick="document.getElementById('nav-links').classList.toggle('open')" aria-label="Menú">
-    <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-  </button>
-</nav>
-
-<!-- ══ HERO ══ -->
-<section class="hero" id="inicio">
-  <p class="hero-eyebrow">⚡ Tijuana, B.C. · Servicio para todo México</p>
-  <h1>
-    COMPRA CARROS DESDE <span class="hero-price">$1,000 USD</span><br>EN SUBASTAS DE EE.UU.
-  </h1>
-  <p class="hero-tagline">
-    <strong>Acceso directo a Copart, IAAI, Manheim y más.</strong><br>
-    Sin costos ocultos. Sin trámites complicados. Con acompañamiento completo.
-  </p>
-  <p class="hero-sub2">Ideal para compradores en México, revendedores y quien busca el mejor precio en USA.</p>
-  <div class="hero-btns">
-    <a class="btn-wa" href="https://wa.me/526641377493?text=Hola,%20quiero%20comprar%20un%20carro%20de%20subasta" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-      Quiero comprar un carro
-    </a>
-    <a class="btn-outline" href="#como-funciona">¿Cómo funciona?</a>
-  </div>
-
-  <!-- Micro social proof -->
-  <div class="hero-trust">
-    <div class="trust-item"><span class="trust-icon">✓</span> +120 carros comprados</div>
-    <span class="trust-sep">|</span>
-    <div class="trust-item"><span class="trust-icon">✓</span> Sin costos ocultos</div>
-    <span class="trust-sep">|</span>
-    <div class="trust-item"><span class="trust-icon">✓</span> Clientes en todo México</div>
-  </div>
-
-  <!-- Mini how it works -->
-  <div class="hero-steps">
-    <div class="hero-step">
-      <div class="hero-step-num">1</div>
-      <div class="hero-step-text">
-        <strong>Elige tu carro</strong>
-        <span>Te ayudamos a encontrar la mejor opción</span>
-      </div>
-    </div>
-    <div class="hero-step-arrow">→</div>
-    <div class="hero-step">
-      <div class="hero-step-num">2</div>
-      <div class="hero-step-text">
-        <strong>Compramos contigo</strong>
-        <span>Usamos nuestra cuenta autorizada</span>
-      </div>
-    </div>
-    <div class="hero-step-arrow">→</div>
-    <div class="hero-step">
-      <div class="hero-step-num">3</div>
-      <div class="hero-step-text">
-        <strong>Lo llevas a México</strong>
-        <span>Coordinamos cruce y entrega</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ STATS ══ -->
-<div class="stats">
-  <div class="stats-inner">
-    <div><div class="stat-num">9+</div><div class="stat-label">Subastas disponibles</div></div>
-    <div><div class="stat-num">100%</div><div class="stat-label">Proceso acompañado</div></div>
-    <div><div class="stat-num">MX</div><div class="stat-label">Entregas en todo México</div></div>
-    <div><div class="stat-num">USA</div><div class="stat-label">Red de transporte</div></div>
-  </div>
-</div>
-
-<!-- ══ AUCTIONS STRIP ══ -->
-<div class="auctions" id="subastas">
-  <h3>Trabajamos con las principales subastas de Estados Unidos</h3>
-  <div class="auction-logos">
-    <div class="auction-tag">COPART</div>
-    <div class="auction-tag">IAAI</div>
-    <div class="auction-tag">MANHEIM</div>
-    <div class="auction-tag">OPENLANE</div>
-    <div class="auction-tag">EBLOCK</div>
-    <div class="auction-tag">ADESA</div>
-    <div class="auction-tag">CARMAX</div>
-    <div class="auction-tag">ACV AUCTIONS</div>
-    <div class="auction-tag">RITCHIE BROS.</div>
-    <div class="auction-tag">NPA</div>
-  </div>
-</div>
-
-<!-- ══ VEHICLES AVAILABLE (desactivado temporalmente) ══
-<section class="vehicles" id="disponibles">
-  <div class="section-inner">
-    <div class="section-title">
-      <h2>Carros <span>Disponibles</span></h2>
-      <p>Unidades actuales en subastas de EE.UU. Escríbenos para más detalles o para encontrar el tuyo.</p>
-    </div>
-
-    <div class="vehicles-filter">
-      <button class="filter-btn active" onclick="filterVehicles('todos', this)">Todos</button>
-      <button class="filter-btn" onclick="filterVehicles('COPART', this)">Copart</button>
-      <button class="filter-btn" onclick="filterVehicles('IAAI', this)">IAAI</button>
-      <button class="filter-btn" onclick="filterVehicles('MANHEIM', this)">Manheim</button>
-    </div>
-
-    <div class="vehicles-grid" id="vehicles-grid">
-
-      <div class="vehicle-card" data-auction="COPART">
-        <div class="vehicle-img">
-          <span class="car-placeholder">🚗</span>
-          <span class="vehicle-badge">COPART</span>
-          <span class="vehicle-status disponible">Disponible</span>
+    function Feature({ icon, text }) {
+      return (
+        <div className="bg-black/70 border border-red-900/50 p-4 rounded-xl flex items-center gap-3">
+          <div className="text-red-600">{icon}</div>
+          <span className="font-bold">{text}</span>
         </div>
-        <div class="vehicle-body">
-          <div class="vehicle-title">2020 Toyota Camry SE</div>
-          <div class="vehicle-meta">
-            <span>📍 California, USA</span>
-            <span>🛣 45,200 mi</span>
-            <span>🔧 Daño frontal</span>
+      );
+    }
+
+    function SectionTitle({ title, dark }) {
+      return (
+        <h2 className={`text-4xl md:text-5xl font-black text-center uppercase ${dark ? "text-black" : "text-white"}`}>
+          {title}
+        </h2>
+      );
+    }
+
+    function Step({ number, title, text, icon }) {
+      return (
+        <div className="bg-black border border-red-900/50 rounded-3xl p-8 text-center">
+          <div className="mx-auto mb-5 w-16 h-16 rounded-full bg-red-700 flex items-center justify-center font-black text-2xl">
+            {number}
           </div>
-          <div class="vehicle-price">$4,800 USD <small>precio subasta</small></div>
-          <a class="vehicle-cta" href="https://wa.me/526641377493?text=Hola,%20me%20interesa%20el%202020%20Toyota%20Camry%20SE%20de%20Copart" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-            Me interesa este carro
+          <div className="text-red-600 flex justify-center mb-4">{icon}</div>
+          <h3 className="text-2xl font-black mb-3">{title}</h3>
+          <p className="text-zinc-400">{text}</p>
+        </div>
+      );
+    }
+
+    function Service({ icon, title }) {
+      return (
+        <div className="border border-red-900/50 rounded-2xl p-8 bg-zinc-950 hover:bg-red-950/20 transition">
+          <div className="text-red-600 mb-4">{icon}</div>
+          <h3 className="text-xl font-black">{title}</h3>
+        </div>
+      );
+    }
+
+    function PriceCard({ title, price, text }) {
+      return (
+        <div className="border border-zinc-200 rounded-3xl p-8 shadow-lg">
+          <h3 className="text-2xl font-black mb-4">{title}</h3>
+          <p className="text-5xl font-black text-red-700">{price}</p>
+          <p className="mt-3 font-semibold">{text}</p>
+        </div>
+      );
+    }
+
+    function Info({ icon, text }) {
+      return (
+        <div className="flex items-center justify-center gap-3">
+          <div className="text-red-600">{icon}</div>
+          <p className="font-bold">{text}</p>
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <main className="bg-black text-white font-sans">
+
+          {/* NAV */}
+          <header className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur border-b border-red-900/40">
+            <div className="w-full px-5 py-2 flex items-center justify-between">
+              <img src="logo100.png" alt="Baja Brokers Logistics" className="h-24 w-auto" />
+              <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+                className="hidden md:flex bg-red-700 hover:bg-red-600 px-5 py-3 rounded-lg font-black items-center gap-2 transition-colors">
+                <Calendar size={18} /> Agenda tu cita
+              </a>
+            </div>
+          </header>
+
+          {/* HERO */}
+          <section className="relative min-h-screen pt-28 flex items-center overflow-hidden">
+            <div className="absolute inset-0 bg-cover bg-center opacity-60"
+              style={{backgroundImage: "url('hero1.png')"}} />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
+            <div className="relative max-w-7xl mx-auto px-5 grid md:grid-cols-2 gap-10 items-center py-16">
+              <div>
+                <p className="text-red-600 font-black tracking-widest mb-4">ACCESO REAL A SUBASTAS DE EUA</p>
+                <h1 className="text-5xl md:text-7xl font-black leading-tight uppercase">
+                  Compra autos de subasta en EUA <span className="text-red-600">desde Tijuana</span>
+                </h1>
+                <p className="mt-6 text-xl text-zinc-300 max-w-xl">
+                  Te damos acceso y guía para comprar en Copart, IAAI, Manheim, Adesa, ACV, Eblock y más.
+                </p>
+                <div className="grid sm:grid-cols-3 gap-4 mt-8">
+                  <Feature icon={<Building2 />} text="Oficina física" />
+                  <Feature icon={<Gavel />} text="Cuentas de subasta" />
+                  <Feature icon={<ShieldCheck />} text="Proceso claro" />
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 mt-10">
+                  <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+                    className="bg-red-700 hover:bg-red-600 px-8 py-4 rounded-xl font-black text-center transition-colors">
+                    AGENDA TU CITA
+                  </a>
+                  <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+                    className="border border-white/30 hover:border-red-600 px-8 py-4 rounded-xl font-black text-center flex justify-center items-center gap-2 transition-colors">
+                    <MessageCircle size={20} /> WhatsApp
+                  </a>
+                </div>
+              </div>
+              <div className="bg-black/60 border border-red-900/50 rounded-3xl p-8 shadow-2xl">
+                <h3 className="text-2xl font-black mb-5">¿Qué hacemos?</h3>
+                <p className="text-zinc-300 leading-relaxed">
+                  Nuestro servicio es darte acceso a subastas, orientación y apoyo
+                  logístico para que puedas comprar vehículos en Estados Unidos y traerlos a México.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* LOGOS */}
+          <section className="bg-white text-black py-12">
+            <div className="max-w-7xl mx-auto px-5 text-center">
+              <h2 className="font-black text-2xl mb-10">ACCESO A PRINCIPALES SUBASTAS</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center justify-items-center">
+                {[
+                  { name:"Copart",      img:"logos/copart.png",   big:true },
+                  { name:"IAAI",        img:"logos/iaai.png" },
+                  { name:"Manheim",     img:"logos/manheim.jpg" },
+                  { name:"Adesa",       img:"logos/adesa.png",    big:true },
+                  { name:"ACV",         img:"logos/acv.jpg" },
+                  { name:"Openlane",    img:"logos/openlane.svg" },
+                  { name:"Eblock",      img:"logos/eblock.webp" },
+                  { name:"NPA",         img:"logos/npa.png" },
+                  { name:"Ritchie Bros",img:"logos/ritchie.png",  big:true },
+                  { name:"CarMax",      img:"logos/carmax.png",   big:true },
+                ].map(item => (
+                  <div key={item.name} className="flex items-center justify-center border border-zinc-100 rounded-xl p-4 w-full h-20 shadow-sm bg-white">
+                    {item.img
+                      ? <img src={item.img} alt={item.name} className={`max-w-full object-contain ${item.big ? "max-h-20" : "max-h-16"}`} />
+                      : <span className="font-black text-lg text-zinc-700">{item.name}</span>
+                    }
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* HOW IT WORKS */}
+          <section className="py-20 bg-zinc-950">
+            <div className="max-w-7xl mx-auto px-5">
+              <SectionTitle title="¿Cómo funciona?" />
+              <div className="grid md:grid-cols-3 gap-6 mt-12">
+                <Step number="1" title="Vienes a la oficina"
+                  text="Usas nuestras cuentas para buscar y seleccionar los autos que quieres." icon={<Building2 size={24} />} />
+                <Step number="2" title="Dejas depósito"
+                  text="Depósito reembolsable según el valor del auto." icon={<Wallet size={24} />} />
+                <Step number="3" title="Compras y listo"
+                  text="Compras el auto que eliges, pagas en subasta y continúas el proceso." icon={<Gavel size={24} />} />
+              </div>
+            </div>
+          </section>
+
+          {/* SERVICES */}
+          <section className="py-20 bg-black">
+            <div className="max-w-7xl mx-auto px-5">
+              <SectionTitle title="¿Qué te ofrecemos?" />
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+                <Service icon={<Search size={24} />} title="Búsqueda de autos" />
+                <Service icon={<Truck size={24} />} title="Transporte a frontera" />
+                <Service icon={<FileCheck size={24} />} title="Importación a México" />
+                <Service icon={<MapPin size={24} />} title="Traslado a todo México" />
+                <Service icon={<ShieldCheck size={24} />} title="Apoyo durante el proceso" />
+              </div>
+            </div>
+          </section>
+
+          {/* WHY US */}
+          <section className="py-20 bg-white text-black">
+            <div className="max-w-7xl mx-auto px-5 grid md:grid-cols-2 gap-10 items-center">
+              <div>
+                <h2 className="text-4xl font-black mb-6">¿Por qué Baja Brokers Logistics?</h2>
+                <ul className="space-y-4">
+                  {[
+                    "Oficina física en Zona Río, Tijuana",
+                    "Proceso claro y transparente",
+                    "Acceso a principales subastas de EUA",
+                    "Logística completa hasta México",
+                    "Atención en español",
+                  ].map(item => (
+                    <li key={item} className="flex gap-3 font-semibold items-center">
+                      <span className="text-red-700 flex-shrink-0"><CheckCircle size={20} /></span> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* LOGISTICS */}
+          <section className="py-20 bg-zinc-950">
+            <div className="max-w-7xl mx-auto px-5 text-center">
+              <SectionTitle title="Logística completa" />
+              <div className="flex flex-col md:flex-row items-center justify-center gap-5 mt-12 flex-wrap">
+                {[
+                  { label: "Subasta",     icon: <Gavel size={28} /> },
+                  { label: "Transporte",  icon: <Truck size={28} /> },
+                  { label: "Frontera",    icon: <MapPin size={28} /> },
+                  { label: "Importación", icon: <FileCheck size={28} /> },
+                  { label: "Entrega",     icon: <CheckCircle size={28} /> },
+                ].map((item, index) => (
+                  <React.Fragment key={item.label}>
+                    <div className="bg-black border border-red-900 rounded-2xl px-8 py-6 font-black flex flex-col items-center gap-2 min-w-[120px]">
+                      <span className="text-red-600">{item.icon}</span>
+                      {item.label}
+                    </div>
+                    {index < 4 && <span className="text-red-600"><ArrowRight size={20} /></span>}
+                  </React.Fragment>
+                ))}
+              </div>
+              <p className="mt-10 text-3xl font-black">
+                Compras en EUA. <span className="text-red-600">Lo recibes en México.</span>
+              </p>
+            </div>
+          </section>
+
+
+          {/* FINAL CTA */}
+          <section className="py-20 bg-black">
+            <div className="max-w-5xl mx-auto px-5 text-center">
+              <h2 className="text-5xl font-black uppercase">Agenda tu cita y empieza a comprar en subastas</h2>
+              <div className="grid md:grid-cols-3 gap-6 mt-10 text-zinc-300">
+                <Info icon={<MapPin />} text="Zona Río, Tijuana" />
+                <Info icon={<Calendar />} text="Lunes a Viernes 9am - 3pm" />
+                <Info icon={<MessageCircle />} text="664 137 7493" />
+              </div>
+              <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+                className="inline-block mt-10 bg-red-700 hover:bg-red-600 px-10 py-5 rounded-xl font-black text-xl transition-colors">
+                ENVIAR WHATSAPP
+              </a>
+            </div>
+          </section>
+
+          {/* FOOTER */}
+          <footer className="bg-zinc-950 border-t border-zinc-800 py-8">
+            <div className="max-w-7xl mx-auto px-5 flex flex-col items-center gap-4">
+              <p className="text-zinc-500 text-sm">Síguenos en redes sociales</p>
+              <div className="flex items-center gap-6">
+                <a href="https://www.facebook.com/profile.php?id=61567282270682" target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-zinc-400 hover:text-blue-500 transition-colors font-bold">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  Facebook
+                </a>
+                <a href="https://www.instagram.com/bajabrokerslogistics_/" target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-zinc-400 hover:text-pink-500 transition-colors font-bold">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                  </svg>
+                  Instagram
+                </a>
+              </div>
+              <p className="text-zinc-700 text-xs mt-2">© 2026 Baja Brokers Logistics. Todos los derechos reservados.</p>
+            </div>
+          </footer>
+
+          {/* MOBILE WA BUTTON */}
+          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+            className="fixed bottom-5 right-5 md:hidden bg-green-600 text-white p-4 rounded-full shadow-2xl z-50">
+            <MessageCircle size={24} />
           </a>
-        </div>
-      </div>
 
-      <div class="vehicle-card" data-auction="IAAI">
-        <div class="vehicle-img">
-          <span class="car-placeholder">🚙</span>
-          <span class="vehicle-badge">IAAI</span>
-          <span class="vehicle-status disponible">Disponible</span>
-        </div>
-        <div class="vehicle-body">
-          <div class="vehicle-title">2019 Ford F-150 XLT</div>
-          <div class="vehicle-meta">
-            <span>📍 Texas, USA</span>
-            <span>🛣 62,000 mi</span>
-            <span>🔧 Daño trasero</span>
-          </div>
-          <div class="vehicle-price">$7,200 USD <small>precio subasta</small></div>
-          <a class="vehicle-cta" href="https://wa.me/526641377493?text=Hola,%20me%20interesa%20la%20Ford%20F-150%202019%20de%20IAAI" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-            Me interesa este carro
-          </a>
-        </div>
-      </div>
+        </main>
+      );
+    }
 
-      <div class="vehicle-card" data-auction="MANHEIM">
-        <div class="vehicle-img">
-          <span class="car-placeholder">🚘</span>
-          <span class="vehicle-badge">MANHEIM</span>
-          <span class="vehicle-status disponible">Disponible</span>
-        </div>
-        <div class="vehicle-body">
-          <div class="vehicle-title">2021 Honda CR-V EX</div>
-          <div class="vehicle-meta">
-            <span>📍 Arizona, USA</span>
-            <span>🛣 28,500 mi</span>
-            <span>🔧 Limpio</span>
-          </div>
-          <div class="vehicle-price">$16,500 USD <small>precio subasta</small></div>
-          <a class="vehicle-cta" href="https://wa.me/526641377493?text=Hola,%20me%20interesa%20el%202021%20Honda%20CR-V%20de%20Manheim" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-            Me interesa este carro
-          </a>
-        </div>
-      </div>
-
-      <div class="vehicle-card" data-auction="COPART">
-        <div class="vehicle-img">
-          <span class="car-placeholder">🚗</span>
-          <span class="vehicle-badge">COPART</span>
-          <span class="vehicle-status vendido">Vendido</span>
-        </div>
-        <div class="vehicle-body">
-          <div class="vehicle-title">2018 Chevrolet Silverado LT</div>
-          <div class="vehicle-meta">
-            <span>📍 Nevada, USA</span>
-            <span>🛣 88,000 mi</span>
-            <span>🔧 Daño lateral</span>
-          </div>
-          <div class="vehicle-price">$5,100 USD <small>precio final</small></div>
-          <a class="vehicle-cta sold">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-            Ya fue vendido
-          </a>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="vehicles-footer">
-      <p>¿No ves lo que buscas? Dinos qué carro quieres y lo encontramos en subasta.</p>
-      <a class="btn-wa" href="https://wa.me/526641377493?text=Hola,%20busco%20un%20carro%20específico,%20¿me%20pueden%20ayudar?" target="_blank" rel="noopener" style="display:inline-flex;">
-        <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:#fff;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-        Buscar mi carro ideal
-      </a>
-    </div>
-  </div>
-</section>
-══ FIN SECCIÓN DESACTIVADA ══ -->
-
-<!-- ══ FIND MY CAR ══ -->
-
-<!-- ══ HOW IT WORKS ══ -->
-<section id="como-funciona">
-  <div class="section-inner">
-    <div class="section-title">
-      <h2>¿Cómo <span>Funciona?</span></h2>
-      <p>Proceso simple, claro y acompañado en 4 pasos.</p>
-    </div>
-    <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-num">1</div>
-        <div class="step-icon">🔍</div>
-        <h3>Elige el carro</h3>
-        <p>Busca la unidad que te interesa en cualquier subasta de EE.UU. Te ayudamos a ubicar opciones.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">2</div>
-        <div class="step-icon">🤝</div>
-        <h3>Te ayudamos a comprar</h3>
-        <p>Usas nuestra cuenta autorizada o te guiamos en el proceso. Nosotros somos tu representante.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">3</div>
-        <div class="step-icon">✅</div>
-        <h3>Ganamos la subasta</h3>
-        <p>Se procesa el pago, documentación y salida del vehículo. Manejamos todos los trámites.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">4</div>
-        <div class="step-icon">🚛</div>
-        <h3>Coordinamos la logística</h3>
-        <p>Transporte, cruce y entrega hasta tu ciudad dentro de México. Todo coordinado por nosotros.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ SERVICES ══ -->
-<section class="services-section" id="servicios">
-  <div class="section-inner">
-    <div class="section-title">
-      <h2>Nuestros <span>Servicios</span></h2>
-      <p>Todo lo que necesitas para importar tu auto desde USA, en un solo lugar.</p>
-    </div>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">🔑</div>
-        <h3>Acceso a Subastas</h3>
-        <p>Te damos acceso a Copart, IAAI, Manheim, Ritchie Bros. y más, sin necesidad de licencia de dealer.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">🤝</div>
-        <h3>Compra Asistida</h3>
-        <p>Te acompañamos en todo el proceso de compra. Somos tu representante y negociamos en tu nombre.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">🏦</div>
-        <h3>Compra con Cuenta Autorizada</h3>
-        <p>Accede a subastas que requieren cuenta de dealer usando nuestra cuenta autorizada y establecida.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">💳</div>
-        <h3>Gestión del Pago</h3>
-        <p>Nos encargamos del pago a la subasta, incluyendo fees de comprador y cargos adicionales.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">🚛</div>
-        <h3>Logística y Traslado</h3>
-        <p>Coordinamos el transporte desde cualquier estado de EE.UU. hasta tu ciudad en México.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">📄</div>
-        <h3>Gestión de Documentos</h3>
-        <p>Te apoyamos con el título del vehículo y los documentos necesarios para que todo quede en regla.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ WHY US ══ -->
-<section class="why">
-  <div class="section-inner">
-    <div class="section-title">
-      <h2>¿Por qué <span>Baja Brokers?</span></h2>
-      <p>Esto es lo que nos distingue de otros intermediarios.</p>
-    </div>
-    <div class="why-grid">
-      <div class="why-item">
-        <div class="why-check">✓</div>
-        <div><h4>Acceso a subastas exclusivas</h4><p>Accede a plataformas que normalmente requieren licencia de dealer.</p></div>
-      </div>
-      <div class="why-item">
-        <div class="why-check">✓</div>
-        <div><h4>Proceso claro y transparente</h4><p>Te cotizamos grúa, importación y comisión sin sorpresas ocultas.</p></div>
-      </div>
-      <div class="why-item">
-        <div class="why-check">✓</div>
-        <div><h4>Enfoque en México</h4><p>Especialistas en logística y documentación para compradores mexicanos.</p></div>
-      </div>
-      <div class="why-item">
-        <div class="why-check">✓</div>
-        <div><h4>Red de transporte en EE.UU.</h4><p>Transportistas confiables desde cualquier estado hasta tu ciudad.</p></div>
-      </div>
-      <div class="why-item">
-        <div class="why-check">✓</div>
-        <div><h4>Respuesta rápida por WhatsApp</h4><p>Atención directa, sin burocracia. Respondemos rápido.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ MID CTA ══ -->
-
-<!-- ══ CASOS REALES ══ -->
-<section class="casos" id="testimonios">
-  <div class="section-inner">
-    <div class="section-title">
-      <h2>Casos <span>Reales</span></h2>
-      <p>Compras reales con costos transparentes. Lo que pagaron nuestros clientes, sin letra chica.</p>
-    </div>
-    <div class="casos-grid">
-
-      <div class="caso-card">
-        <img class="caso-img" src="fotos/volvo-s60.jpg" alt="2017 Volvo S60"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="caso-img-placeholder" style="display:none;">🚗</div>
-        <div class="caso-body">
-          <div class="caso-title">2017 Volvo S60</div>
-          <div class="caso-breakdown">
-            <div class="caso-row"><span>Precio subasta</span><span>$1,675 <em>USD</em></span></div>
-            <div class="caso-row"><span>Grúa</span><span>$240 <em>USD</em></span></div>
-            <div class="caso-row"><span>Importación</span><span>$1,700 <em>USD</em></span></div>
-          </div>
-          <hr class="caso-divider">
-          <div class="caso-total">
-            <span>Total puesto en México</span>
-            <span class="caso-total-price">$3,615 <em>USD</em></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="caso-card">
-        <img class="caso-img" src="fotos/kia-optima.jpg" alt="2016 Kia Optima"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="caso-img-placeholder" style="display:none;">🚗</div>
-        <div class="caso-body">
-          <div class="caso-title">2016 Kia Optima</div>
-          <div class="caso-breakdown">
-            <div class="caso-row"><span>Precio subasta</span><span>$1,995 <em>USD</em></span></div>
-            <div class="caso-row"><span>Grúa</span><span>$240 <em>USD</em></span></div>
-            <div class="caso-row"><span>Importación</span><span>$1,500 <em>USD</em></span></div>
-          </div>
-          <hr class="caso-divider">
-          <div class="caso-total">
-            <span>Total puesto en México</span>
-            <span class="caso-total-price">$3,735 <em>USD</em></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="caso-card">
-        <img class="caso-img" src="fotos/nissan-versa.jpg" alt="2018 Nissan Versa"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="caso-img-placeholder" style="display:none;">🚗</div>
-        <div class="caso-body">
-          <div class="caso-title">2018 Nissan Versa</div>
-          <div class="caso-breakdown">
-            <div class="caso-row"><span>Precio subasta</span><span>$2,370 <em>USD</em></span></div>
-            <div class="caso-row"><span>Grúa</span><span>$240 <em>USD</em></span></div>
-            <div class="caso-row"><span>Importación</span><span>$1,550 <em>USD</em></span></div>
-          </div>
-          <hr class="caso-divider">
-          <div class="caso-total">
-            <span>Total puesto en México</span>
-            <span class="caso-total-price">$4,160 <em>USD</em></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="caso-card">
-        <img class="caso-img" src="fotos/vw-tiguan.jpg" alt="2019 Volkswagen Tiguan"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="caso-img-placeholder" style="display:none;">🚙</div>
-        <div class="caso-body">
-          <div class="caso-title">2019 Volkswagen Tiguan</div>
-          <div class="caso-breakdown">
-            <div class="caso-row"><span>Precio subasta</span><span>$5,240 <em>USD</em></span></div>
-            <div class="caso-row"><span>Grúa</span><span>$240 <em>USD</em></span></div>
-            <div class="caso-row"><span>Importación</span><span>$1,600 <em>USD</em></span></div>
-          </div>
-          <hr class="caso-divider">
-          <div class="caso-total">
-            <span>Total puesto en México</span>
-            <span class="caso-total-price">$6,855 <em>USD</em></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="caso-card">
-        <img class="caso-img" src="fotos/toyota-highlander.jpg" alt="2020 Toyota Highlander"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="caso-img-placeholder" style="display:none;">🚙</div>
-        <div class="caso-body">
-          <div class="caso-title">2020 Toyota Highlander</div>
-          <div class="caso-breakdown">
-            <div class="caso-row"><span>Precio subasta</span><span>$11,155 <em>USD</em></span></div>
-            <div class="caso-row"><span>Grúa</span><span>$240 <em>USD</em></span></div>
-            <div class="caso-row"><span>Importación</span><span>$1,700 <em>USD</em></span></div>
-          </div>
-          <hr class="caso-divider">
-          <div class="caso-total">
-            <span>Total puesto en México</span>
-            <span class="caso-total-price">$13,095 <em>USD</em></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="caso-card">
-        <img class="caso-img" src="fotos/ford-edge.jpg" alt="2018 Ford Edge"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="caso-img-placeholder" style="display:none;">🚙</div>
-        <div class="caso-body">
-          <div class="caso-title">2018 Ford Edge</div>
-          <div class="caso-breakdown">
-            <div class="caso-row"><span>Precio subasta</span><span>$4,340 <em>USD</em></span></div>
-            <div class="caso-row"><span>Grúa</span><span>$240 <em>USD</em></span></div>
-            <div class="caso-row"><span>Importación</span><span>$1,650 <em>USD</em></span></div>
-          </div>
-          <hr class="caso-divider">
-          <div class="caso-total">
-            <span>Total puesto en México</span>
-            <span class="caso-total-price">$6,230 <em>USD</em></span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ══ FAQ ══ -->
-<section class="faq">
-  <div class="section-inner">
-    <div class="section-title">
-      <h2>Preguntas <span>Frecuentes</span></h2>
-      <p>Todo lo que necesitas saber antes de comprar.</p>
-    </div>
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          ¿Necesito licencia de dealer para comprar?
-          <svg class="arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-        </button>
-        <div class="faq-a">No. Nosotros tenemos la cuenta autorizada. Tú solo necesitas saber qué carro quieres comprar y nosotros hacemos el resto.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          ¿Qué incluye la cotización?
-          <svg class="arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-        </button>
-        <div class="faq-a">Te cotizamos costos de grúa desde la subasta, proceso de importación y nuestra comisión de broker. El precio del auto lo ves directamente en la plataforma de la subasta.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          ¿Qué pasa si no gano la subasta?
-          <svg class="arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-        </button>
-        <div class="faq-a">No hay costo si no se gana el auto. Solo pagamos cuando la compra es exitosa. Podemos intentar con otro lote o subasta similar.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          ¿Hacen envíos a toda la república?
-          <svg class="arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-        </button>
-        <div class="faq-a">Sí. Coordinamos el transporte desde cualquier estado de EE.UU. hasta tu ciudad dentro de México. Consultamos la ruta y te damos costo exacto.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          ¿Qué subastas manejan?
-          <svg class="arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-        </button>
-        <div class="faq-a">Trabajamos con Copart, IAAI, Manheim, OpenLane, Eblock, Adesa, Carmax, ACV Auctions, Ritchie Bros. (maquinaria) y NPA.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          ¿Pueden revisar el carro antes de comprar?
-          <svg class="arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-        </button>
-        <div class="faq-a">Los autos en subasta generalmente se venden en el estado en que están. Podemos ayudarte a revisar el historial del vehículo, las fotos del lote y la descripción de daños antes de hacer una oferta.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          ¿Piden depósito por adelantado?
-          <svg class="arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-        </button>
-        <div class="faq-a">Sí, se solicita un depósito para poder participar en la subasta.<br><br>
-          ✔ Es completamente reembolsable<br>
-          ✔ Se utiliza para garantizar las ofertas<br><br>
-          <strong>Monto:</strong><br>
-          • Autos hasta $5,999 USD → $1,000 USD de depósito<br>
-          • Autos de $6,000 USD o más → 15% del valor<br><br>
-          El depósito se devuelve una vez que el vehículo es pagado.
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          ¿Dónde puedo ver el inventario?
-          <svg class="arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-        </button>
-        <div class="faq-a">Copart.com e IAAI.com tienen inventario público que puedes consultar sin cuenta. Las demás subastas (Manheim, OpenLane, Eblock, etc.) son privadas y requieren cuenta de dealer para ver su inventario. Si quieres explorar esas opciones, puedes visitarnos en nuestra oficina y lo revisamos juntos.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ FINAL CTA ══ -->
-<section class="final-cta" id="contacto">
-  <h2>¿Listo para <span style="color:var(--rojo)">importar</span> tu auto?</h2>
-  <p>Contáctanos hoy y recibe costos reales sin compromiso. Respondemos rápido.</p>
-  <a class="cta-phone" href="tel:+526641377493">(664) 137-7493</a>
-  <div class="final-cta-btns">
-    <a class="btn-wa" href="https://wa.me/526641377493?text=Hola,%20quiero%20cotizar%20un%20auto" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-      Escribir por WhatsApp
-    </a>
-    <a class="btn-outline" href="tel:+526641377493">📞 Llamar ahora</a>
-  </div>
-</section>
-
-<!-- ══ MAP ══ -->
-<div class="map-section">
-  <div class="map-inner">
-    <div class="map-info">
-      <h3>Visítanos en <span>Oficina</span></h3>
-      <div class="map-detail">
-        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        <p><strong>Dirección</strong>Edificio Daroca, Guadalupe Victoria 9440-Local #4, Zona Urbana Rio Tijuana, 22010 Tijuana, B.C.</p>
-      </div>
-      <div class="map-detail">
-        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
-        <p><strong>Horario</strong>Lunes a Viernes · 9:00 am – 4:00 pm</p>
-      </div>
-      <div class="map-detail">
-        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-        <p><strong>Teléfono</strong><a href="tel:+526641377493" style="color:var(--blanco);text-decoration:none;">(664) 137-7493</a></p>
-      </div>
-    </div>
-    <div class="map-embed">
-      <iframe src="https://maps.google.com/maps?q=Guadalupe+Victoria+9440,+Zona+Urbana+Rio+Tijuana,+22010+Tijuana,+BC,+Mexico&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-  </div>
-</div>
-
-<!-- ══ FOOTER ══ -->
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="footer-brand-name">BAJA <span class="red">BROKERS</span> LOGISTICS</div>
-      <p class="footer-desc">Tu intermediario de confianza para comprar autos en subastas de Estados Unidos. Acceso, gestión y logística para compradores en México.</p>
-      <div class="footer-contact">
-        <a href="tel:+526641377493">
-          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-          (664) 137-7493
-        </a>
-        <a href="https://wa.me/526641377493" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-          WhatsApp
-        </a>
-        <a href="mailto:bajabrokerslogistics@gmail.com">
-          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          bajabrokerslogistics@gmail.com
-        </a>
-        <a href="#map-section">
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-          Edificio Daroca, Guadalupe Victoria 9440-Local #4, Zona Urbana Rio Tijuana, 22010 Tijuana, B.C.
-        </a>
-        <a href="#" style="pointer-events:none;cursor:default;">
-          <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
-          Lun – Vie · 9:00 am – 4:00 pm
-        </a>
-      </div>
-      <div class="footer-social">
-        <a href="https://wa.me/526641377493" style="background:#25d366;" target="_blank" rel="noopener" title="WhatsApp">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-        </a>
-        <a href="https://www.facebook.com/profile.php?id=61567282270682" style="background:#1877f2;" target="_blank" rel="noopener" title="Facebook">
-          <svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.406 18.627 0 12 0S0 5.406 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.514c-1.491 0-1.956.93-1.956 1.883v2.272h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/bajabrokerslogistics_/" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);" target="_blank" rel="noopener" title="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <div class="footer-col">
-      <h4>Navegación</h4>
-      <a href="#inicio">Inicio</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#como-funciona">Cómo funciona</a>
-      <a href="#testimonios">Casos Reales</a>
-      <a href="#contacto">Contacto</a>
-    </div>
-
-    <div class="footer-col">
-      <h4>Subastas</h4>
-      <a href="#">Copart</a>
-      <a href="#">IAAI</a>
-      <a href="#">Manheim</a>
-      <a href="#">OpenLane</a>
-      <a href="#">Ritchie Bros.</a>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>© 2025 Baja Brokers Logistics. Todos los derechos reservados.</p>
-    <div style="display:flex;gap:1rem;">
-      <a href="#">Aviso de privacidad</a>
-      <a href="#">Términos de servicio</a>
-    </div>
-  </div>
-</footer>
-
-<!-- ══ WHATSAPP FLOAT ══ -->
-<a class="wa-float" href="https://wa.me/526641377493?text=Hola,%20quiero%20cotizar%20un%20auto" target="_blank" rel="noopener" title="Cotiza por WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.847L.057 23.882a.5.5 0 0 0 .614.612l6.109-1.602A11.947 11.947 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.031-1.387l-.361-.214-3.735.979.997-3.645-.235-.374A9.794 9.794 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
-</a>
-
-<script>
-function filterVehicles(auction, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.vehicle-card').forEach(card => {
-    card.style.display = (auction === 'todos' || card.dataset.auction === auction) ? '' : 'none';
-  });
-}
-
-function toggleFaq(btn) {
-  const item = btn.parentElement;
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
-}
-// Close mobile menu on link click
-document.querySelectorAll('#nav-links a').forEach(a => {
-  a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
-});
-</script>
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
 </body>
 </html>
