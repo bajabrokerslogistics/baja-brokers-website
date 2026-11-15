@@ -1,310 +1,1459 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta name="facebook-domain-verification" content="ok961klv60j90t6k2skc3de32gsarh" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Baja Brokers Logistics – Compra autos en subastas de EE.UU.</title>
-  <meta name="description" content="Acceso real a Copart, IAAI, Manheim, Adesa, ACV y más desde Tijuana. Proceso claro, logística completa hasta México." />
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+<head>
+<meta name="facebook-domain-verification" content="ok961klv60j90t6k2skc3de32gsarh" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Importamos vehículos desde subastas de EE.UU. a todo México. Servicio completo: compra, importación, trámites y entrega. Tijuana, B.C.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' https://logo.clearbit.com data:; base-uri 'self'; form-action 'none'; object-src 'none';">
+  <title>Baja Brokers Logistics — Importación de Vehículos desde EE.UU.</title>
   <style>
+    :root {
+      --rojo: #DC2626;
+      --rojo-dark: #B91C1C;
+      --negro: #0a0a0a;
+      --gris-oscuro: #111111;
+      --gris-medio: #1a1a1a;
+      --gris-borde: #2a2a2a;
+      --blanco: #ffffff;
+      --blanco-suave: #e5e5e5;
+      --gris-texto: #9ca3af;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: #000; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--negro);
+      color: var(--blanco);
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--gris-borde);
+      padding: 0 1.5rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      order: 1;
+    }
+
+    .nav-links a {
+      color: var(--blanco-suave);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--rojo); }
+
+    .nav-cta {
+      order: 2;
+    }
+
+    .nav-cta a {
+      background: var(--rojo);
+      color: var(--blanco);
+      padding: 0.5rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .nav-cta a:hover { background: var(--rojo-dark); }
+
+    .nav-brand {
+      order: 3;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-logo {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .nav-nombre {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-align: left;
+    }
+
+    .nav-nombre span:nth-child(1) { color: var(--blanco); }
+    .nav-nombre span:nth-child(2) { color: var(--rojo); }
+    .nav-nombre span:nth-child(3) { color: var(--blanco); }
+
+    .nav-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--blanco);
+      cursor: pointer;
+      padding: 0.5rem;
+      order: 0;
+    }
+
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: var(--gris-oscuro);
+      border-bottom: 1px solid var(--gris-borde);
+      padding: 1.25rem 1.5rem;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 999;
+    }
+
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      color: var(--blanco-suave);
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--gris-borde);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 1.5rem 4rem;
+      background: radial-gradient(ellipse at center top, #1a0505 0%, var(--negro) 70%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(ellipse at center, rgba(220,38,38,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-content { max-width: 760px; position: relative; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(220,38,38,0.15);
+      border: 1px solid rgba(220,38,38,0.4);
+      color: #f87171;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.75rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span { color: var(--rojo); }
+
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--gris-texto);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--rojo);
+      color: var(--blanco);
+      padding: 0.875rem 2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-primary:hover { background: var(--rojo-dark); transform: translateY(-1px); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      padding: 0.875rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: border-color 0.2s, transform 0.1s;
+    }
+
+    .btn-outline:hover { border-color: var(--blanco-suave); transform: translateY(-1px); }
+
+    /* ── STATS ── */
+    .stats {
+      background: var(--gris-medio);
+      border-top: 1px solid var(--gris-borde);
+      border-bottom: 1px solid var(--gris-borde);
+      padding: 2rem 1.5rem;
+    }
+
+    .stats-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--rojo);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--gris-texto);
+      margin-top: 0.25rem;
+    }
+
+    /* ── SECTIONS GENERAL ── */
+    section { padding: 5rem 1.5rem; }
+
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      color: var(--gris-texto);
+      font-size: 1.0625rem;
+      max-width: 600px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── SUBASTAS ── */
+    .subastas { background: var(--gris-oscuro); }
+
+    .subastas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+
+    .subasta-card {
+      background: var(--gris-medio);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .subasta-card:hover {
+      border-color: var(--rojo);
+      transform: translateY(-2px);
+    }
+
+    .subasta-logo {
+      width: 64px;
+      height: 32px;
+      object-fit: contain;
+      margin: 0 auto 0.75rem;
+      display: block;
+      filter: brightness(0) invert(1);
+      opacity: 0.85;
+    }
+
+    .subasta-name {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--blanco-suave);
+      margin-bottom: 0.25rem;
+    }
+
+    .subasta-desc {
+      font-size: 0.75rem;
+      color: var(--gris-texto);
+    }
+
+    /* ── CÓMO FUNCIONA ── */
+    .como { background: var(--negro); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .step-num {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: var(--rojo);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      color: var(--gris-texto);
+    }
+
+    /* ── SERVICIOS ── */
+    .servicios { background: var(--gris-oscuro); }
+
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .servicio-card {
+      background: var(--gris-medio);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      padding: 1.75rem;
+      transition: border-color 0.2s;
+    }
+
+    .servicio-card:hover { border-color: var(--rojo); }
+
+    .servicio-icon {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .servicio-title {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .servicio-desc {
+      font-size: 0.875rem;
+      color: var(--gris-texto);
+    }
+
+    /* ── POR QUÉ NOSOTROS ── */
+    .porque { background: var(--negro); }
+
+    .porque-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .porq-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .porq-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: rgba(220,38,38,0.12);
+      border: 1px solid rgba(220,38,38,0.3);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .porq-title {
+      font-weight: 700;
+      font-size: 0.9375rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .porq-desc {
+      font-size: 0.8125rem;
+      color: var(--gris-texto);
+    }
+
+    /* ── MID CTA ── */
+    .mid-cta {
+      background: linear-gradient(135deg, #1a0505 0%, #0a0a0a 100%);
+      border-top: 1px solid var(--gris-borde);
+      border-bottom: 1px solid var(--gris-borde);
+      text-align: center;
+      padding: 4rem 1.5rem;
+    }
+
+    .mid-cta h2 {
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+
+    .mid-cta p {
+      color: var(--gris-texto);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ── EN VENTA ── */
+    .enventa { background: var(--gris-oscuro); }
+
+    .venta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .venta-card {
+      background: var(--gris-medio);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .venta-card:hover {
+      border-color: var(--rojo);
+      transform: translateY(-3px);
+    }
+
+    .venta-foto {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gris-texto);
+      font-size: 2.5rem;
+    }
+
+    .venta-foto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .venta-info { padding: 1.25rem; }
+
+    .venta-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.6rem;
+    }
+
+    .badge-disponible { background: rgba(34,197,94,0.15); color: #4ade80; }
+    .badge-vendido { background: rgba(220,38,38,0.15); color: #f87171; }
+    .badge-apartado { background: rgba(234,179,8,0.15); color: #fbbf24; }
+
+    .venta-titulo {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .venta-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .venta-spec {
+      font-size: 0.75rem;
+      color: var(--gris-texto);
+      background: rgba(255,255,255,0.05);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .venta-precio {
+      font-size: 1.125rem;
+      font-weight: 800;
+      color: var(--rojo);
+      margin-bottom: 0.75rem;
+    }
+
+    .venta-cta {
+      display: block;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.3);
+      color: #4ade80;
+      text-align: center;
+      padding: 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .venta-cta:hover { background: rgba(34,197,94,0.2); }
+
+    .venta-prox {
+      text-align: center;
+      padding: 4rem 1.5rem;
+      color: var(--gris-texto);
+    }
+
+    .venta-prox p {
+      font-size: 1.125rem;
+      margin-top: 0.75rem;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--gris-oscuro);
+      border: 1px solid var(--gris-borde);
+      border-radius: 16px;
+      max-width: 560px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      position: relative;
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--gris-borde);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: none;
+      border: none;
+      color: var(--gris-texto);
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+      padding: 0.25rem;
+    }
+
+    .modal-close:hover { color: var(--blanco); }
+
+    .modal-foto {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gris-texto);
+      font-size: 3rem;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .modal-foto img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    .modal-body { padding: 1.5rem; }
+
+    .modal-titulo {
+      font-size: 1.375rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-precio {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--rojo);
+      margin-bottom: 1rem;
+    }
+
+    .modal-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-spec {
+      font-size: 0.8125rem;
+      color: var(--gris-texto);
+      background: rgba(255,255,255,0.06);
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+    }
+
+    .modal-desc {
+      font-size: 0.9375rem;
+      color: var(--blanco-suave);
+      margin-bottom: 1.5rem;
+      line-height: 1.65;
+    }
+
+    .modal-wa {
+      display: block;
+      background: #16a34a;
+      color: var(--blanco);
+      text-align: center;
+      padding: 0.875rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+
+    .modal-wa:hover { background: #15803d; }
+
+    /* ── TESTIMONIOS ── */
+    .testimonios { background: var(--negro); }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .testi-card {
+      background: var(--gris-medio);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .testi-stars {
+      color: #fbbf24;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .testi-texto {
+      font-size: 0.9375rem;
+      color: var(--blanco-suave);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .testi-nombre {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--gris-texto);
+    }
+
+    .testi-ciudad {
+      font-size: 0.8125rem;
+      color: var(--gris-texto);
+    }
+
+    /* ── FAQ ── */
+    .faq { background: var(--gris-oscuro); }
+
+    .faq-list {
+      max-width: 760px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .faq-item {
+      background: var(--gris-medio);
+      border: 1px solid var(--gris-borde);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .faq-pregunta {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--blanco);
+      text-align: left;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      transition: color 0.2s;
+    }
+
+    .faq-pregunta:hover { color: var(--rojo); }
+
+    .faq-pregunta .faq-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-respuesta {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-item.open .faq-respuesta { max-height: 300px; }
+
+    .faq-respuesta p {
+      padding: 0 1.5rem 1.25rem;
+      font-size: 0.9375rem;
+      color: var(--gris-texto);
+      line-height: 1.65;
+    }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      background: linear-gradient(135deg, #1a0505 0%, #0a0a0a 100%);
+      text-align: center;
+      padding: 5rem 1.5rem;
+    }
+
+    .final-cta h2 {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .final-cta p {
+      color: var(--gris-texto);
+      font-size: 1.0625rem;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--gris-oscuro);
+      border-top: 1px solid var(--gris-borde);
+      padding: 3rem 1.5rem;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .footer-brand .nav-nombre {
+      margin-top: 0.75rem;
+    }
+
+    .footer-desc {
+      font-size: 0.875rem;
+      color: var(--gris-texto);
+      margin-top: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .footer-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--blanco-suave);
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-links a {
+      font-size: 0.875rem;
+      color: var(--gris-texto);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--rojo); }
+
+    .footer-contact p {
+      font-size: 0.875rem;
+      color: var(--gris-texto);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--gris-medio);
+      border: 1px solid var(--gris-borde);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .social-btn:hover {
+      background: rgba(220,38,38,0.15);
+      border-color: var(--rojo);
+    }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--gris-borde);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .footer-bottom p {
+      font-size: 0.8125rem;
+      color: var(--gris-texto);
+    }
+
+    /* ── FLOAT BUTTONS ── */
+    .float-wa {
+      position: fixed;
+      bottom: 1.75rem;
+      right: 1.75rem;
+      z-index: 900;
+      width: 56px;
+      height: 56px;
+      background: #16a34a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      font-size: 1.5rem;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .float-wa:hover { transform: scale(1.08); background: #15803d; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .nav-menu-btn { display: block; }
+
+      .footer-inner { grid-template-columns: 1fr; }
+
+      .steps { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .steps { grid-template-columns: 1fr; }
+      .stats-inner { gap: 2rem; }
+    }
   </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
 
-    const WHATSAPP = "https://wa.me/526641377493?text=Hola%2C%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n%20sobre%20c%C3%B3mo%20comprar%20autos%20en%20subasta%20";
+<!-- NAV -->
+<nav>
+  <div class="nav-links">
+    <a href="#inicio">Inicio</a>
+    <a href="#subastas">Subastas</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#enventa">En Venta</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+  <div class="nav-cta">
+    <a href="https://wa.me/526641377493?text=quiero%20informaci%C3%B3n%20sobre%20el%20servicio" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+  <div class="nav-brand">
+    <img src="logo.png" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
+    <div class="nav-nombre">
+      <span>BAJA</span>
+      <span>BROKERS</span>
+      <span>LOGISTICS</span>
+    </div>
+  </div>
+  <button class="nav-menu-btn" onclick="toggleMenu()" aria-label="Menú">&#9776;</button>
+</nav>
 
-    const Calendar      = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>;
-    const MapPin        = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>;
-    const MessageCircle = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>;
-    const Building2     = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>;
-    const Gavel         = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m14.5 12.5-8 8a2.119 2.119 0 0 1-3-3l8-8"/><path d="m16 16 6-6"/><path d="m8 8 6-6"/><path d="m9 7 8 8"/><path d="m21 11-8-8"/></svg>;
-    const ShieldCheck   = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>;
-    const Search        = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>;
-    const ClipboardCheck= ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>;
-    const Truck         = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect width="7" height="7" x="14" y="11" rx="1"/><path d="M5 17a2 2 0 0 0 4 0m4 0a2 2 0 0 0 4 0"/></svg>;
-    const FileCheck     = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>;
-    const Wallet        = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>;
-    const ArrowRight    = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
-    const CheckCircle   = ({size=18}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+<div class="nav-mobile" id="navMobile">
+  <a href="#inicio" onclick="toggleMenu()">Inicio</a>
+  <a href="#subastas" onclick="toggleMenu()">Subastas</a>
+  <a href="#servicios" onclick="toggleMenu()">Servicios</a>
+  <a href="#enventa" onclick="toggleMenu()">En Venta</a>
+  <a href="#contacto" onclick="toggleMenu()">Contacto</a>
+  <a href="https://wa.me/526641377493?text=quiero%20informaci%C3%B3n%20sobre%20el%20servicio" target="_blank" rel="noopener" onclick="toggleMenu()">📱 WhatsApp</a>
+</div>
 
-    function Feature({ icon, text }) {
-      return (
-        <div className="bg-black/70 border border-red-900/50 p-4 rounded-xl flex items-center gap-3">
-          <div className="text-red-600">{icon}</div>
-          <span className="font-bold">{text}</span>
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-content">
+    <div class="hero-badge">Tijuana, B.C. · Importación desde EE.UU.</div>
+    <h1>Importamos tu vehículo<br>desde <span>EE.UU.</span></h1>
+    <p>Compramos en las principales subastas de Estados Unidos y te entregamos en todo México. Trámites completos, precios directos.</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/526641377493?text=quiero%20informaci%C3%B3n%20sobre%20el%20servicio" target="_blank" rel="noopener" class="btn-primary">📱 Contactar por WhatsApp</a>
+      <a href="#enventa" class="btn-outline">Ver en Venta</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Vehículos importados</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">8+</div>
+      <div class="stat-label">Años de experiencia</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">México</div>
+      <div class="stat-label">Entregamos en todo el país</div>
+    </div>
+  </div>
+</div>
+
+<!-- SUBASTAS -->
+<section class="subastas" id="subastas">
+  <div class="section-inner">
+    <div class="section-label">Dónde compramos</div>
+    <h2 class="section-title">Acceso a las mejores subastas</h2>
+    <p class="section-sub">Compramos directamente en las subastas más grandes de EE.UU., garantizando los mejores precios y la más amplia selección.</p>
+    <div class="subastas-grid">
+      <div class="subasta-card">
+        <img src="https://logo.clearbit.com/iaai.com" alt="IAAI" class="subasta-logo" onerror="this.style.display='none'">
+        <div class="subasta-name">IAAI</div>
+        <div class="subasta-desc">Insurance Auto Auctions</div>
+      </div>
+      <div class="subasta-card">
+        <img src="https://logo.clearbit.com/copart.com" alt="Copart" class="subasta-logo" onerror="this.style.display='none'">
+        <div class="subasta-name">Copart</div>
+        <div class="subasta-desc">Subasta de autos salvage</div>
+      </div>
+      <div class="subasta-card">
+        <img src="https://logo.clearbit.com/manheim.com" alt="Manheim" class="subasta-logo" onerror="this.style.display='none'">
+        <div class="subasta-name">Manheim</div>
+        <div class="subasta-desc">Autos de agencia y fleet</div>
+      </div>
+      <div class="subasta-card">
+        <img src="https://logo.clearbit.com/adesa.com" alt="Adesa" class="subasta-logo" onerror="this.style.display='none'">
+        <div class="subasta-name">Adesa</div>
+        <div class="subasta-desc">Subasta de autos usados</div>
+      </div>
+      <div class="subasta-card">
+        <img src="https://logo.clearbit.com/eblock.com" alt="Eblock" class="subasta-logo" onerror="this.style.display='none'">
+        <div class="subasta-name">Eblock</div>
+        <div class="subasta-desc">Subasta digital de autos</div>
+      </div>
+      <div class="subasta-card">
+        <img src="https://logo.clearbit.com/rbauction.com" alt="Ritchie Bros" class="subasta-logo" onerror="this.style.display='none'">
+        <div class="subasta-name">Ritchie Bros.</div>
+        <div class="subasta-desc">Maquinaria pesada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="como" id="como">
+  <div class="section-inner">
+    <div class="section-label">Proceso</div>
+    <h2 class="section-title">¿Cómo funciona?</h2>
+    <p class="section-sub">Importar un vehículo desde EE.UU. es más sencillo de lo que crees. Nosotros nos encargamos de todo.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Elegir vehículo</div>
+        <p class="step-desc">Nos contactas y te ayudamos a encontrar el auto ideal en las subastas de EE.UU. según tu presupuesto.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">Comprar en subasta</div>
+        <p class="step-desc">Compramos el vehículo en tu nombre con nuestro acceso directo a las principales subastas americanas.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Importación y trámites</div>
+        <p class="step-desc">Gestionamos todo: flete, aduana, pedimento, verificación y emplacamiento. Sin sorpresas.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title">Entrega en todo México</div>
+        <p class="step-desc">Te entregamos el vehículo hasta tu ciudad dentro de México, listo para circular.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="servicios" id="servicios">
+  <div class="section-inner">
+    <div class="section-label">Servicios</div>
+    <h2 class="section-title">Todo en un solo lugar</h2>
+    <p class="section-sub">Ofrecemos el servicio completo de importación para que no tengas que lidiar con múltiples proveedores.</p>
+    <div class="servicios-grid">
+      <div class="servicio-card">
+        <div class="servicio-icon">🚢</div>
+        <div class="servicio-title">Importación de vehículos</div>
+        <p class="servicio-desc">Proceso completo de importación desde EE.UU., incluyendo todos los trámites legales y aduaneros.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">🚛</div>
+        <div class="servicio-title">Servicio de grúa</div>
+        <p class="servicio-desc">Traslado seguro de tu vehículo desde la subasta hasta Tijuana y entrega a cualquier punto de México.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">📋</div>
+        <div class="servicio-title">Trámites aduanales</div>
+        <p class="servicio-desc">Pedimento, verificación vehicular, emplacamiento y todos los documentos necesarios para circular legalmente.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">🔧</div>
+        <div class="servicio-title">Reparación</div>
+        <p class="servicio-desc">Reparamos vehículos de subasta (salvage/remate) para dejarlo en perfectas condiciones antes de la entrega.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">💡</div>
+        <div class="servicio-title">Asesoría personalizada</div>
+        <p class="servicio-desc">Te guiamos desde la búsqueda del vehículo ideal hasta la entrega final, resolviendo cada duda en el proceso.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">📦</div>
+        <div class="servicio-title">Maquinaria y equipos</div>
+        <p class="servicio-desc">Importamos también maquinaria pesada, camiones, equipos de construcción y agrícola desde subastas especializadas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUÉ NOSOTROS -->
+<section class="porque" id="porque">
+  <div class="section-inner">
+    <div class="section-label">Diferenciadores</div>
+    <h2 class="section-title">¿Por qué elegirnos?</h2>
+    <p class="section-sub">Más de 8 años importando vehículos desde EE.UU. nos respaldan. Aquí lo que nos distingue.</p>
+    <div class="porque-grid">
+      <div class="porq-item">
+        <div class="porq-icon">✅</div>
+        <div>
+          <div class="porq-title">Experiencia comprobada</div>
+          <p class="porq-desc">+500 vehículos importados y 8+ años en el mercado de Tijuana y la frontera.</p>
         </div>
-      );
-    }
-
-    function SectionTitle({ title, dark }) {
-      return (
-        <h2 className={`text-4xl md:text-5xl font-black text-center uppercase ${dark ? "text-black" : "text-white"}`}>
-          {title}
-        </h2>
-      );
-    }
-
-    function Step({ number, title, text, icon }) {
-      return (
-        <div className="bg-black border border-red-900/50 rounded-3xl p-8 text-center">
-          <div className="mx-auto mb-5 w-16 h-16 rounded-full bg-red-700 flex items-center justify-center font-black text-2xl">
-            {number}
-          </div>
-          <div className="text-red-600 flex justify-center mb-4">{icon}</div>
-          <h3 className="text-2xl font-black mb-3">{title}</h3>
-          <p className="text-zinc-400">{text}</p>
+      </div>
+      <div class="porq-item">
+        <div class="porq-icon">🔍</div>
+        <div>
+          <div class="porq-title">Total transparencia</div>
+          <p class="porq-desc">Te mostramos todos los costos desde el principio: precio de subasta, flete, aduana y comisión.</p>
         </div>
-      );
-    }
-
-    function Service({ icon, title }) {
-      return (
-        <div className="border border-red-900/50 rounded-2xl p-8 bg-zinc-950 hover:bg-red-950/20 transition">
-          <div className="text-red-600 mb-4">{icon}</div>
-          <h3 className="text-xl font-black">{title}</h3>
+      </div>
+      <div class="porq-item">
+        <div class="porq-icon">🗺️</div>
+        <div>
+          <div class="porq-title">Cobertura nacional</div>
+          <p class="porq-desc">Entregamos en cualquier ciudad de México. No importa dónde estés.</p>
         </div>
-      );
-    }
-
-    function PriceCard({ title, price, text }) {
-      return (
-        <div className="border border-zinc-200 rounded-3xl p-8 shadow-lg">
-          <h3 className="text-2xl font-black mb-4">{title}</h3>
-          <p className="text-5xl font-black text-red-700">{price}</p>
-          <p className="mt-3 font-semibold">{text}</p>
+      </div>
+      <div class="porq-item">
+        <div class="porq-icon">⚡</div>
+        <div>
+          <div class="porq-title">Proceso rápido</div>
+          <p class="porq-desc">Tiempos competitivos de importación. Te mantenemos informado en cada paso.</p>
         </div>
-      );
-    }
-
-    function Info({ icon, text }) {
-      return (
-        <div className="flex items-center justify-center gap-3">
-          <div className="text-red-600">{icon}</div>
-          <p className="font-bold">{text}</p>
+      </div>
+      <div class="porq-item">
+        <div class="porq-icon">🤝</div>
+        <div>
+          <div class="porq-title">Trato personalizado</div>
+          <p class="porq-desc">No eres un número. Te atendemos directamente y resolvemos tus dudas en tiempo real.</p>
         </div>
-      );
+      </div>
+      <div class="porq-item">
+        <div class="porq-icon">🏆</div>
+        <div>
+          <div class="porq-title">Acceso exclusivo</div>
+          <p class="porq-desc">Acceso directo a 6 subastas distintas para encontrar el mejor vehículo al mejor precio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MID CTA -->
+<div class="mid-cta">
+  <h2>Cotizamos grúa, importación y comisión</h2>
+  <p>Contáctanos y te damos todos los detalles sobre nuestros servicios sin compromiso.</p>
+  <a href="https://wa.me/526641377493?text=quiero%20informaci%C3%B3n%20sobre%20el%20servicio" target="_blank" rel="noopener" class="btn-primary">📱 Escribir por WhatsApp</a>
+</div>
+
+<!-- EN VENTA -->
+<section class="enventa" id="enventa">
+  <div class="section-inner">
+    <div class="section-label">En Venta</div>
+    <h2 class="section-title">Vehículos disponibles</h2>
+    <p class="section-sub">Vehículos importados listos para entrega. Haz clic en cualquier auto para ver más detalles.</p>
+
+    <div class="venta-grid" id="ventaGrid" style="display:none"></div>
+
+    <div class="venta-prox" id="ventaProx">
+      <div style="font-size:3rem">🚗</div>
+      <p>Próximamente — Vehículos en camino</p>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL DE AUTO -->
+<div class="modal-overlay" id="modalOverlay" onclick="cerrarModal(event)">
+  <div class="modal">
+    <div class="modal-foto" id="modalFoto">🚗</div>
+    <div class="modal-body">
+      <div id="modalBadge"></div>
+      <div class="modal-titulo" id="modalTitulo"></div>
+      <div class="modal-precio" id="modalPrecio"></div>
+      <div class="modal-specs" id="modalSpecs"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <a href="#" class="modal-wa" id="modalWa" target="_blank" rel="noopener">📱 Preguntar por este vehículo</a>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIOS -->
+<section class="testimonios" id="testimonios">
+  <div class="section-inner">
+    <div class="section-label">Testimonios</div>
+    <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+    <p class="section-sub">Clientes satisfechos en todo México que confiaron en Baja Brokers Logistics.</p>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-texto">"Excelente servicio. Me consiguieron una F-150 en subasta a un precio increíble y me la entregaron en Guadalajara sin ningún problema. 100% recomendados."</p>
+        <div class="testi-nombre">Carlos M.</div>
+        <div class="testi-ciudad">Guadalajara, Jalisco</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-texto">"Lo que más me gustó fue la transparencia. Desde el inicio me dijeron exactamente cuánto iba a pagar por todo. Sin sorpresas al final. Ya voy en mi segundo auto con ellos."</p>
+        <div class="testi-nombre">Ana R.</div>
+        <div class="testi-ciudad">Ciudad de México</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-texto">"Importé una pickup dañada de subasta y la dejaron como nueva. El proceso fue rápido y me mantuvieron informado en todo momento. Muy profesionales."</p>
+        <div class="testi-nombre">Roberto L.</div>
+        <div class="testi-ciudad">Monterrey, N.L.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="section-inner">
+    <div class="section-label">Preguntas frecuentes</div>
+    <h2 class="section-title">Resolvemos tus dudas</h2>
+    <p class="section-sub">Las preguntas más comunes sobre el proceso de importación.</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Cuánto tiempo tarda el proceso completo?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>El proceso completo desde la compra en subasta hasta la entrega en tu ciudad tarda entre 4 y 8 semanas, dependiendo de la distancia y los trámites de aduana. Te mantenemos informado en cada paso.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Puedo elegir el vehículo que quiero?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Sí. Puedes pedirnos que busquemos un modelo específico o puedes explorar las subastas con nuestra asesoría. También tenemos vehículos ya importados disponibles para venta inmediata en la sección "En Venta".</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Qué incluye la comisión de Baja Brokers?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Nuestra comisión incluye el servicio de compra en subasta, coordinación del flete, gestión aduanal, seguimiento del proceso y asesoría personalizada. Puedes cotizar grúa, importación y comisión por separado según tus necesidades.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Importan vehículos dañados (salvage)?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Sí. Muchos de nuestros clientes compran vehículos de subasta con daño para reparación. Ofrecemos servicio de reparación para dejarlo en perfectas condiciones antes de la entrega final.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Entregan en cualquier estado de México?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Sí, entregamos en todo México. El costo de entrega varía según la distancia desde Tijuana. Contáctanos para cotizar el envío a tu ciudad.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿También importan maquinaria y camiones?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Sí. Tenemos acceso a Ritchie Bros. y otras subastas especializadas en maquinaria pesada, camiones y equipos. Contáctanos para más información sobre este tipo de importaciones.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="contacto">
+  <h2>¿Listo para importar tu vehículo?</h2>
+  <p>Contáctanos hoy y te asesoramos sin compromiso. Respondemos rápido por WhatsApp.</p>
+  <a href="https://wa.me/526641377493?text=quiero%20informaci%C3%B3n%20sobre%20el%20servicio" target="_blank" rel="noopener" class="btn-primary" style="font-size:1.125rem; padding:1rem 2.5rem;">📱 Escribir por WhatsApp</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="logo.png" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
+      <div class="nav-nombre">
+        <span>BAJA</span>
+        <span>BROKERS</span>
+        <span>LOGISTICS</span>
+      </div>
+      <p class="footer-desc">Importamos vehículos desde EE.UU. a todo México. Tijuana, B.C.</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="social-btn" title="Facebook">📘</a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="social-btn" title="Instagram">📷</a>
+        <a href="https://wa.me/526641377493" target="_blank" rel="noopener" class="social-btn" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-title">Servicios</div>
+      <div class="footer-links">
+        <a href="#servicios">Importación de vehículos</a>
+        <a href="#servicios">Servicio de grúa</a>
+        <a href="#servicios">Trámites aduanales</a>
+        <a href="#servicios">Reparación</a>
+        <a href="#servicios">Maquinaria pesada</a>
+      </div>
+    </div>
+    <div class="footer-contact">
+      <div class="footer-title">Contacto</div>
+      <p>📍 Tijuana, Baja California, México</p>
+      <p>📞 664-137-7493</p>
+      <p>🌐 bajabrokersl.com</p>
+      <br>
+      <a href="https://wa.me/526641377493?text=quiero%20informaci%C3%B3n%20sobre%20el%20servicio" target="_blank" rel="noopener" class="btn-primary" style="display:inline-block; font-size:0.875rem; padding:0.625rem 1.25rem;">📱 WhatsApp</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Baja Brokers Logistics. Todos los derechos reservados.</p>
+    <p>Tijuana, B.C., México</p>
+  </div>
+</footer>
+
+<!-- FLOAT WA -->
+<a href="https://wa.me/526641377493?text=quiero%20informaci%C3%B3n%20sobre%20el%20servicio" target="_blank" rel="noopener" class="float-wa" title="WhatsApp">💬</a>
+
+<script>
+  /* ── NAV MOBILE ── */
+  function toggleMenu() {
+    document.getElementById('navMobile').classList.toggle('open');
+  }
+
+  /* ── FAQ ACCORDION ── */
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* ── CAR LISTINGS ── */
+  const carros = [
+    // Ejemplo — descomenta y edita para agregar autos:
+    // {
+    //   titulo: "2019 Ford F-150 XLT",
+    //   precio: "$18,500 USD",
+    //   foto: "",
+    //   badge: "disponible",
+    //   specs: ["85,000 mi", "V6 3.5L", "4x4", "Automático", "Reparado"],
+    //   desc: "Pickup en excelente condición, motor V6 EcoBoost. Carrocería sin daños, interiores limpios. Lista para circular.",
+    //   wa: "me interesa la Ford F-150 2019"
+    // },
+  ];
+
+  function renderCarros() {
+    const grid = document.getElementById('ventaGrid');
+    const prox = document.getElementById('ventaProx');
+
+    if (!carros.length) {
+      grid.style.display = 'none';
+      prox.style.display = '';
+      return;
     }
 
-    function App() {
-      return (
-        <main className="bg-black text-white font-sans">
+    prox.style.display = 'none';
+    grid.style.display = 'grid';
+    grid.innerHTML = carros.map((c, i) => {
+      const fotoHTML = c.foto
+        ? '<img src="' + c.foto + '" alt="' + c.titulo + '" loading="lazy">'
+        : '🚗';
+      const badgeClass = {disponible:'badge-disponible', vendido:'badge-vendido', apartado:'badge-apartado'}[c.badge] || 'badge-disponible';
+      const badgeLabel = {disponible:'Disponible', vendido:'Vendido', apartado:'Apartado'}[c.badge] || 'Disponible';
+      const specsHTML = (c.specs || []).map(s => '<span class="venta-spec">' + s + '</span>').join('');
+      return '<div class="venta-card" onclick="abrirModal(' + i + ')">' +
+        '<div class="venta-foto">' + fotoHTML + '</div>' +
+        '<div class="venta-info">' +
+          '<span class="venta-badge ' + badgeClass + '">' + badgeLabel + '</span>' +
+          '<div class="venta-titulo">' + c.titulo + '</div>' +
+          '<div class="venta-specs">' + specsHTML + '</div>' +
+          '<div class="venta-precio">' + c.precio + '</div>' +
+          '<a class="venta-cta" href="https://wa.me/526641377493?text=' + encodeURIComponent(c.wa) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">📱 Preguntar</a>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
 
-          {/* NAV */}
-          <header className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur border-b border-red-900/40">
-            <div className="w-full px-5 py-2 flex items-center justify-between">
-              <img src="logo100.png" alt="Baja Brokers Logistics" className="h-24 w-auto" />
-              <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
-                className="hidden md:flex bg-red-700 hover:bg-red-600 px-5 py-3 rounded-lg font-black items-center gap-2 transition-colors">
-                <Calendar size={18} /> Agenda tu cita
-              </a>
-            </div>
-          </header>
+  function abrirModal(i) {
+    const c = carros[i];
+    if (!c) return;
+    const fotoEl = document.getElementById('modalFoto');
+    fotoEl.innerHTML = c.foto ? '<img src="' + c.foto + '" alt="' + c.titulo + '">' : '🚗';
 
-          {/* HERO */}
-          <section className="relative min-h-screen pt-28 flex items-center overflow-hidden">
-            <div className="absolute inset-0 bg-cover bg-center opacity-60"
-              style={{backgroundImage: "url('hero1.png')"}} />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
-            <div className="relative max-w-7xl mx-auto px-5 grid md:grid-cols-2 gap-10 items-center py-16">
-              <div>
-                <p className="text-red-600 font-black tracking-widest mb-4">ACCESO REAL A SUBASTAS DE EUA</p>
-                <h1 className="text-5xl md:text-7xl font-black leading-tight uppercase">
-                  Compra autos de subasta en EUA <span className="text-red-600">desde Tijuana</span>
-                </h1>
-                <p className="mt-6 text-xl text-zinc-300 max-w-xl">
-                  Te damos acceso y guía para comprar en Copart, IAAI, Manheim, Adesa, ACV, Eblock y más.
-                </p>
-                <div className="grid sm:grid-cols-3 gap-4 mt-8">
-                  <Feature icon={<Building2 />} text="Oficina física" />
-                  <Feature icon={<Gavel />} text="Cuentas de subasta" />
-                  <Feature icon={<ShieldCheck />} text="Proceso claro" />
-                </div>
-                <div className="flex flex-col sm:flex-row gap-4 mt-10">
-                  <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
-                    className="bg-red-700 hover:bg-red-600 px-8 py-4 rounded-xl font-black text-center transition-colors">
-                    AGENDA TU CITA
-                  </a>
-                  <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
-                    className="border border-white/30 hover:border-red-600 px-8 py-4 rounded-xl font-black text-center flex justify-center items-center gap-2 transition-colors">
-                    <MessageCircle size={20} /> WhatsApp
-                  </a>
-                </div>
-              </div>
-              <div className="bg-black/60 border border-red-900/50 rounded-3xl p-8 shadow-2xl">
-                <h3 className="text-2xl font-black mb-5">¿Qué hacemos?</h3>
-                <p className="text-zinc-300 leading-relaxed">
-                  Nuestro servicio es darte acceso a subastas, orientación y apoyo
-                  logístico para que puedas comprar vehículos en Estados Unidos y traerlos a México.
-                </p>
-              </div>
-            </div>
-          </section>
+    const badgeClass = {disponible:'badge-disponible', vendido:'badge-vendido', apartado:'badge-apartado'}[c.badge] || 'badge-disponible';
+    const badgeLabel = {disponible:'Disponible', vendido:'Vendido', apartado:'Apartado'}[c.badge] || 'Disponible';
+    document.getElementById('modalBadge').innerHTML = '<span class="venta-badge ' + badgeClass + '" style="margin-bottom:.75rem;display:inline-block">' + badgeLabel + '</span>';
+    document.getElementById('modalTitulo').textContent = c.titulo;
+    document.getElementById('modalPrecio').textContent = c.precio;
+    document.getElementById('modalSpecs').innerHTML = (c.specs || []).map(s => '<span class="modal-spec">' + s + '</span>').join('');
+    document.getElementById('modalDesc').textContent = c.desc || '';
+    document.getElementById('modalWa').href = 'https://wa.me/526641377493?text=' + encodeURIComponent(c.wa);
 
-          {/* LOGOS */}
-          <section className="bg-white text-black py-12">
-            <div className="max-w-7xl mx-auto px-5 text-center">
-              <h2 className="font-black text-2xl mb-10">ACCESO A PRINCIPALES SUBASTAS</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center justify-items-center">
-                {[
-                  { name:"Copart",      img:"logos/copart.png",   big:true },
-                  { name:"IAAI",        img:"logos/iaai.png" },
-                  { name:"Manheim",     img:"logos/manheim.jpg" },
-                  { name:"Adesa",       img:"logos/adesa.png",    big:true },
-                  { name:"ACV",         img:"logos/acv.jpg" },
-                  { name:"Openlane",    img:"logos/openlane.svg" },
-                  { name:"Eblock",      img:"logos/eblock.webp" },
-                  { name:"NPA",         img:"logos/npa.png" },
-                  { name:"Ritchie Bros",img:"logos/ritchie.png",  big:true },
-                  { name:"CarMax",      img:"logos/carmax.png",   big:true },
-                ].map(item => (
-                  <div key={item.name} className="flex items-center justify-center border border-zinc-100 rounded-xl p-4 w-full h-20 shadow-sm bg-white">
-                    {item.img
-                      ? <img src={item.img} alt={item.name} className={`max-w-full object-contain ${item.big ? "max-h-20" : "max-h-16"}`} />
-                      : <span className="font-black text-lg text-zinc-700">{item.name}</span>
-                    }
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
 
-          {/* HOW IT WORKS */}
-          <section className="py-20 bg-zinc-950">
-            <div className="max-w-7xl mx-auto px-5">
-              <SectionTitle title="¿Cómo funciona?" />
-              <div className="grid md:grid-cols-3 gap-6 mt-12">
-                <Step number="1" title="Vienes a la oficina"
-                  text="Usas nuestras cuentas para buscar y seleccionar los autos que quieres." icon={<Building2 size={24} />} />
-                <Step number="2" title="Dejas depósito"
-                  text="Depósito reembolsable según el valor del auto." icon={<Wallet size={24} />} />
-                <Step number="3" title="Compras y listo"
-                  text="Compras el auto que eliges, pagas en subasta y continúas el proceso." icon={<Gavel size={24} />} />
-              </div>
-            </div>
-          </section>
+  function cerrarModal(e) {
+    if (e && e.target !== document.getElementById('modalOverlay')) return;
+    _cerrarModal();
+  }
 
-          {/* SERVICES */}
-          <section className="py-20 bg-black">
-            <div className="max-w-7xl mx-auto px-5">
-              <SectionTitle title="¿Qué te ofrecemos?" />
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-                <Service icon={<Search size={24} />} title="Búsqueda de autos" />
-                <Service icon={<Truck size={24} />} title="Transporte a frontera" />
-                <Service icon={<FileCheck size={24} />} title="Importación a México" />
-                <Service icon={<MapPin size={24} />} title="Traslado a todo México" />
-                <Service icon={<ShieldCheck size={24} />} title="Apoyo durante el proceso" />
-              </div>
-            </div>
-          </section>
+  function _cerrarModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
-          {/* WHY US */}
-          <section className="py-20 bg-white text-black">
-            <div className="max-w-7xl mx-auto px-5 grid md:grid-cols-2 gap-10 items-center">
-              <div>
-                <h2 className="text-4xl font-black mb-6">¿Por qué Baja Brokers Logistics?</h2>
-                <ul className="space-y-4">
-                  {[
-                    "Oficina física en Zona Río, Tijuana",
-                    "Proceso claro y transparente",
-                    "Acceso a principales subastas de EUA",
-                    "Logística completa hasta México",
-                    "Atención en español",
-                  ].map(item => (
-                    <li key={item} className="flex gap-3 font-semibold items-center">
-                      <span className="text-red-700 flex-shrink-0"><CheckCircle size={20} /></span> {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </section>
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') _cerrarModal(); });
 
-          {/* LOGISTICS */}
-          <section className="py-20 bg-zinc-950">
-            <div className="max-w-7xl mx-auto px-5 text-center">
-              <SectionTitle title="Logística completa" />
-              <div className="flex flex-col md:flex-row items-center justify-center gap-5 mt-12 flex-wrap">
-                {[
-                  { label: "Subasta",     icon: <Gavel size={28} /> },
-                  { label: "Transporte",  icon: <Truck size={28} /> },
-                  { label: "Frontera",    icon: <MapPin size={28} /> },
-                  { label: "Importación", icon: <FileCheck size={28} /> },
-                  { label: "Entrega",     icon: <CheckCircle size={28} /> },
-                ].map((item, index) => (
-                  <React.Fragment key={item.label}>
-                    <div className="bg-black border border-red-900 rounded-2xl px-8 py-6 font-black flex flex-col items-center gap-2 min-w-[120px]">
-                      <span className="text-red-600">{item.icon}</span>
-                      {item.label}
-                    </div>
-                    {index < 4 && <span className="text-red-600"><ArrowRight size={20} /></span>}
-                  </React.Fragment>
-                ))}
-              </div>
-              <p className="mt-10 text-3xl font-black">
-                Compras en EUA. <span className="text-red-600">Lo recibes en México.</span>
-              </p>
-            </div>
-          </section>
+  document.querySelector('.modal').addEventListener('click', e => e.stopPropagation());
 
-
-          {/* FINAL CTA */}
-          <section className="py-20 bg-black">
-            <div className="max-w-5xl mx-auto px-5 text-center">
-              <h2 className="text-5xl font-black uppercase">Agenda tu cita y empieza a comprar en subastas</h2>
-              <div className="grid md:grid-cols-3 gap-6 mt-10 text-zinc-300">
-                <Info icon={<MapPin />} text="Zona Río, Tijuana" />
-                <Info icon={<Calendar />} text="Lunes a Viernes 9am - 3pm" />
-                <Info icon={<MessageCircle />} text="664 137 7493" />
-              </div>
-              <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
-                className="inline-block mt-10 bg-red-700 hover:bg-red-600 px-10 py-5 rounded-xl font-black text-xl transition-colors">
-                ENVIAR WHATSAPP
-              </a>
-            </div>
-          </section>
-
-          {/* FOOTER */}
-          <footer className="bg-zinc-950 border-t border-zinc-800 py-8">
-            <div className="max-w-7xl mx-auto px-5 flex flex-col items-center gap-4">
-              <p className="text-zinc-500 text-sm">Síguenos en redes sociales</p>
-              <div className="flex items-center gap-6">
-                <a href="https://www.facebook.com/profile.php?id=61567282270682" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-zinc-400 hover:text-blue-500 transition-colors font-bold">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                  Facebook
-                </a>
-                <a href="https://www.instagram.com/bajabrokerslogistics_/" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-zinc-400 hover:text-pink-500 transition-colors font-bold">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
-                  </svg>
-                  Instagram
-                </a>
-              </div>
-              <p className="text-zinc-700 text-xs mt-2">© 2026 Baja Brokers Logistics. Todos los derechos reservados.</p>
-            </div>
-          </footer>
-
-          {/* MOBILE WA BUTTON */}
-          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
-            className="fixed bottom-5 right-5 md:hidden bg-green-600 text-white p-4 rounded-full shadow-2xl z-50">
-            <MessageCircle size={24} />
-          </a>
-
-        </main>
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
+  renderCarros();
+</script>
 </body>
 </html>
